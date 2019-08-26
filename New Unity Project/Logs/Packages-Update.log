@@ -1,0 +1,12 @@
+
+=== Mon Aug 26 20:35:26 2019
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were added:
+  com.unity.multiplayer-hlapi@1.0.2
+  com.unity.xr.legacyinputhelpers@2.0.2
+The following packages were updated:
+  com.unity.ide.rider from version 1.0.4 to 1.1.0
+  com.unity.ide.vscode from version 1.0.4 to 1.0.7
