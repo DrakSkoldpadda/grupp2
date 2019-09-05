@@ -2,36 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Movement : MonoBehaviour
 {
     [Header("Character Stats")]
-    [SerializeField] float walkingSpeed;
-    [SerializeField] float sprintingSpeed;
+    [SerializeField] float walkingSpeed = 6f;
+    [SerializeField] float sprintingSpeed = 12f;
 
-    [SerializeField] float jumpForce;
-    [SerializeField] float jumpCooldown;
+    [SerializeField] float jumpForce = 7f;
+    [SerializeField] float jumpCooldown = 0.5f;
 
-    [SerializeField] float minRotationSpeed;
-    [SerializeField] float maxRotationSpeed;
+    [SerializeField] float minRotationSpeed = 5f;
+    [SerializeField] float maxRotationSpeed = 10f;
 
 
 
     [Header("Mechanical Stuff")]
-    [SerializeField] float neededSpeedToTurn;
-    [SerializeField] float graivityScale;
+    [SerializeField] float neededSpeedToTurn = 3f;
+    [SerializeField] float graivityScale = 0.07f;
 
-    [SerializeField] float turnAmmountBeforeLeaning;
+    [SerializeField] float turnAmmountBeforeLeaning = 0.2f;
 
 
     [SerializeField] Animator animMove;
     [SerializeField] Animator animLean;
 
-    [Range(0.01f, 1f)] public float time;
 
     private float cooldownBeforeJump;
     private float currentRotationsSpeed;
-
 
     private Quaternion lookRotation;
 
@@ -43,18 +40,77 @@ public class Movement : MonoBehaviour
 
     private CharacterController controller;
 
-    private void Start()
+    private ThirdPersonCamera camera;
+    //camera.CurrentX (get)
+
+    private void Awake()
     {
         controller = GetComponent<CharacterController>();
+        camera = Camera.main.GetComponent<ThirdPersonCamera>();
+    }
+
+    private void FixedUpdate()
+    {
+        // I seperated the scripts into thier own voids so that it's easyer to look at
+        Move();
+        RotateMovement();
+        //LeanAnimation();
     }
 
 
-    private void Update()
+    void Move()
     {
+        moveDirection = new Vector3(Input.GetAxis("Horizontal") * walkingSpeed, moveDirection.y, Input.GetAxis("Vertical") * walkingSpeed);
+
+        if (controller.isGrounded && cooldownBeforeJump <= 0)
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                moveDirection.y = jumpForce;
+                cooldownBeforeJump = jumpCooldown;
+            }
+        }
         cooldownBeforeJump -= Time.deltaTime;
 
-        Time.timeScale = time;
+        if (!controller.isGrounded)
+        {
+            //Applies gravity only when you are not on the groundwa
+            moveDirection.y = moveDirection.y + (Physics.gravity.y * graivityScale);
+        }
 
+        controller.Move(moveDirection * Time.deltaTime);
+    }
+
+    private void RotateMovement()
+    {
+        moveDirectionRaw = new Vector3(Input.GetAxisRaw("Horizontal") * walkingSpeed, moveDirection.y, Input.GetAxisRaw("Vertical") * walkingSpeed);
+
+        if (moveDirection.x < -neededSpeedToTurn || moveDirection.x > neededSpeedToTurn || moveDirection.z < -neededSpeedToTurn || moveDirection.z > neededSpeedToTurn)// So that it dosen't rotate back to z = 0 when not moving
+        {
+            if (moveDirectionRaw.x > 0 || moveDirectionRaw.x < 0 || moveDirectionRaw.z > 0 || moveDirectionRaw.z < 0)// Allso so that when I let go of all movement it shouldn't move back
+            {
+                currentRotationsSpeed = minRotationSpeed;
+
+                // This does not use the Character controller to work
+                lookRotation = Quaternion.LookRotation(new Vector3(moveDirectionRaw.x, 0, moveDirectionRaw.z)); // Find out how you shold rotate yourself to look in that direction(ny y direction as well)
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * currentRotationsSpeed); // Smoothly rotate towoards that direction
+            }
+        }
+
+        else // Only happenes if player is walking slowely. For a faster turning when standing still.
+        {
+            if (moveDirectionRaw.x > 0 || moveDirectionRaw.x < 0 || moveDirectionRaw.z > 0 || moveDirectionRaw.z < 0) // Allso so that when I let go of all movement it shouldn't move back
+            {
+                currentRotationsSpeed = maxRotationSpeed;
+
+                lookRotation = Quaternion.LookRotation(new Vector3(moveDirectionRaw.x, 0, moveDirectionRaw.z)); // Find out how you shold rotate yourself to look in that direction(ny y direction as well)
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * currentRotationsSpeed); // Smoothly rotate towoards that direction
+            }
+        }
+    }
+
+    private void LeanAnimation()
+    {
         if (Input.GetAxis("Horizontal") < -0.3f || Input.GetAxis("Horizontal") > 0.3f || Input.GetAxis("Vertical") < -0.3f || Input.GetAxis("Vertical") > 0.3f)
         {
             animMove.SetBool("CharacterIsMoving", true);
@@ -75,73 +131,6 @@ public class Movement : MonoBehaviour
         {
 
         }
-    }
-
-
-    private void FixedUpdate()
-    {
-        // I seperated the scripts into thier own voids so that it's easyer to look at
-        Moving();
-        RotateTowoards();
-    }
-
-
-    void Moving()
-    {
-        moveDirection = new Vector3(Input.GetAxis("Horizontal") * walkingSpeed, moveDirection.y, Input.GetAxis("Vertical") * walkingSpeed);
-
-        if (controller.isGrounded && cooldownBeforeJump <= 0)
-        {
-            if (Input.GetButtonDown("Jump"))
-            {
-                moveDirection.y = jumpForce;
-                cooldownBeforeJump = jumpCooldown;
-            }
-        }
-
-        if (!controller.isGrounded)
-        {
-            moveDirection.y = moveDirection.y + (Physics.gravity.y * graivityScale);
-            //Applies gravity only when you are not on the groundwa
-        }
-
-        //controller.Move(moveDirection * Time.deltaTime);
-    }
-
-
-    private void RotateTowoards()
-    {
-        moveDirectionRaw = new Vector3(Input.GetAxisRaw("Horizontal") * walkingSpeed, moveDirection.y, Input.GetAxisRaw("Vertical") * walkingSpeed);
-
-
-        if (moveDirection.x < -neededSpeedToTurn || moveDirection.x > neededSpeedToTurn || moveDirection.z < -neededSpeedToTurn || moveDirection.z > neededSpeedToTurn)// So that it dosen't rotate back to z = 0 when not moving
-        {
-            if (moveDirectionRaw.x > 0 || moveDirectionRaw.x < 0 || moveDirectionRaw.z > 0 || moveDirectionRaw.z < 0)// Allso so that when I let go of all movement it shouldn't move back
-            {
-                currentRotationsSpeed = minRotationSpeed;
-
-                // This does not use the Character controller to work
-                lookRotation = Quaternion.LookRotation(new Vector3(moveDirectionRaw.x, 0, moveDirectionRaw.z)); // Find out how you shold rotate yourself to look in that direction(ny y direction as well)
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * currentRotationsSpeed); // Smoothly rotate towoards that direction
-            }
-        }
-
-        //else if (moveDirectionRaw.x == 0 && moveDirectionRaw.z == 0) // Makes so that when ther is no input tehere is no rotation left for leaning
-        //{
-        //    lookRotation = transform.rotation;
-        //}
-
-        else // Only happenes if player is walking slowely. For a faster turning when standing still.
-        {
-            if (moveDirectionRaw.x > 0 || moveDirectionRaw.x < 0 || moveDirectionRaw.z > 0 || moveDirectionRaw.z < 0) // Allso so that when I let go of all movement it shouldn't move back
-            {
-                currentRotationsSpeed = maxRotationSpeed;
-
-                lookRotation = Quaternion.LookRotation(new Vector3(moveDirectionRaw.x, 0, moveDirectionRaw.z)); // Find out how you shold rotate yourself to look in that direction(ny y direction as well)
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * currentRotationsSpeed); // Smoothly rotate towoards that direction
-            }
-        }
-
 
         //if (transform.rotation.y + 0.9 < lookRotation.y || transform.rotation.y - 0.9 > lookRotation.y)
         //{
@@ -178,7 +167,4 @@ public class Movement : MonoBehaviour
         destenatedRotation = lookRotation.y;
         currentRotation = transform.rotation.y;
     }
-
-
-
 }
