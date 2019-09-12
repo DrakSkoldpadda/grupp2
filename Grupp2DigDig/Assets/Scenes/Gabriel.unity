@@ -171,7 +171,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 1000
+  far clip plane: 100
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775eaaac89102414f9c32bb49d88c8d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraMinDistance: 2
+  cameraMinDistance: 4
   cameraMaxDistance: 15
   wantedCamDistance: 0
   sensivityX: 1
