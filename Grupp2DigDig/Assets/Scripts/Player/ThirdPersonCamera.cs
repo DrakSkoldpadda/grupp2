@@ -8,7 +8,7 @@ public class ThirdPersonCamera : MonoBehaviour
     private Transform lookAtTarget;
     private Transform target;
 
-    [SerializeField] private float cameraMinDistance = 2f;
+    [SerializeField] private float cameraMinDistance = 3f;
     [SerializeField] private float cameraMaxDistance = 13f;
     [SerializeField] private float wantedCamDistance;
     private float currentCamDistance;
@@ -25,12 +25,16 @@ public class ThirdPersonCamera : MonoBehaviour
     public float CurrentX { get; private set; }
     private float currentY = 0f;
 
+    private void Awake()
+    {
+        target = GameObject.FindWithTag("Player").transform;
+    }
+
     private void Start()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        target = GameObject.FindWithTag("Player").transform;
         lookAtTarget = target;
 
         wantedCamDistance = 7f;
