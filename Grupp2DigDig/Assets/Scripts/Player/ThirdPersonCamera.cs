@@ -9,7 +9,7 @@ public class ThirdPersonCamera : MonoBehaviour
     private Transform target;
 
     [SerializeField] private float cameraMinDistance = 2f;
-    [SerializeField] private float cameraMaxDistance = 15f;
+    [SerializeField] private float cameraMaxDistance = 13f;
     [SerializeField] private float wantedCamDistance;
     private float currentCamDistance;
 
@@ -87,14 +87,20 @@ public class ThirdPersonCamera : MonoBehaviour
         }
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         Vector3 velocity = Vector3.zero;
 
         //Gör så att kameran "orbittar" runt spelaren
         Vector3 dir = new Vector3(0, 0, -currentCamDistance);
         Quaternion rotation = Quaternion.Euler(currentY, CurrentX, 0);
+
         transform.position = Vector3.SmoothDamp(transform.position, target.position + rotation * dir, ref velocity, smoothTime);
+    }
+
+    private void LateUpdate()
+    {
+        //transform.position = target.position + rotation * dir;
 
         //Vad kameran ska kolla på
         transform.LookAt(lookAtTarget.position);
