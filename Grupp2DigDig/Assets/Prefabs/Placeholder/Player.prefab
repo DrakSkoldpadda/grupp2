@@ -286,13 +286,14 @@ MonoBehaviour:
   sprintingSpeed: 10
   jumpForce: 8
   jumpCooldown: 0.5
-  minRotationSpeed: 0.5
-  maxRotationSpeed: 2
+  minRotationSpeed: 5
+  maxRotationSpeed: 10
   neededSpeedToTurn: 7
   graivityScale: 0.07
   turnAmmountBeforeLeaning: 0.5
   animMove: {fileID: 0}
   animLean: {fileID: 0}
+  cam: {fileID: 0}
   currentRotation: 0
   destenatedRotation: 0
 --- !u!143 &7164154890183337156
