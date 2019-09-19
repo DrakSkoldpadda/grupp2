@@ -9,6 +9,8 @@ public class Pathfiding : MonoBehaviour
 
     [SerializeField] private Transform target;
 
+    [SerializeField] private float aggroRage = 10f;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -21,8 +23,19 @@ public class Pathfiding : MonoBehaviour
 
     private void Update()
     {
+        if (Vector3.Distance(target.position, transform.position) < aggroRage)
+        {
+            agent.SetDestination(target.position);
+        }
+        else
+        {
 
-        agent.SetDestination(target.position);
+        }
+    }
 
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, aggroRage);
     }
 }
