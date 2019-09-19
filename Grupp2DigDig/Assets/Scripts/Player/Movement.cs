@@ -23,8 +23,10 @@ public class Movement : MonoBehaviour
     [SerializeField] float turnAmmountBeforeLeaning = 0.2f;
 
 
+    [Header("LinkableObjects")]
     [SerializeField] Animator animMove;
     [SerializeField] Animator animLean;
+    [SerializeField] Transform cam;
 
 
     private float cooldownBeforeJump;
@@ -40,6 +42,9 @@ public class Movement : MonoBehaviour
 
     private CharacterController controller;
 
+    private Vector3 camForward;
+    private Vector3 camRight;
+
     private ThirdPersonCamera camera;
     //camera.CurrentX (get)
 
@@ -51,16 +56,32 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        camForward = cam.forward;
+        camRight = cam.right;
+
+        camForward.y = 0;
+        camRight.y = 0;
+
+        camForward = camForward.normalized;
+        camRight = camRight.normalized;
+
+
         // I seperated the scripts into thier own voids so that it's easyer to look at
         Move();
         RotateMovement();
-        //LeanAnimation();
+        //LeanAnimation(); // Work in progress ;3
     }
 
 
     void Move()
     {
-        moveDirection = new Vector3(Input.GetAxis("Horizontal") * walkingSpeed, moveDirection.y, Input.GetAxis("Vertical") * walkingSpeed);
+
+
+        //moveDirection = new Vector3(Input.GetAxis("Horizontal") * walkingSpeed, moveDirection.y, Input.GetAxis("Vertical") * walkingSpeed);
+        moveDirection = new Vector3((cam.forward.x * Input.GetAxis("Vertical") * walkingSpeed + cam.right.x * Input.GetAxis("Horizontal") * walkingSpeed)
+            , moveDirection.y
+            , (cam.forward.z * Input.GetAxis("Vertical") * walkingSpeed) + (cam.right.z * Input.GetAxis("Horizontal") * walkingSpeed));
+
 
         if (controller.isGrounded && cooldownBeforeJump <= 0)
         {
@@ -83,7 +104,9 @@ public class Movement : MonoBehaviour
 
     private void RotateMovement()
     {
-        moveDirectionRaw = new Vector3(Input.GetAxisRaw("Horizontal") * walkingSpeed, moveDirection.y, Input.GetAxisRaw("Vertical") * walkingSpeed);
+        //moveDirectionRaw = new Vector3(Input.GetAxisRaw("Horizontal") * walkingSpeed, moveDirection.y, Input.GetAxisRaw("Vertical") * walkingSpeed);
+        moveDirectionRaw = (camForward * Input.GetAxisRaw("Vertical") * walkingSpeed) + (camRight * Input.GetAxisRaw("Horizontal") * walkingSpeed);
+
 
         if (moveDirection.x < -neededSpeedToTurn || moveDirection.x > neededSpeedToTurn || moveDirection.z < -neededSpeedToTurn || moveDirection.z > neededSpeedToTurn)// So that it dosen't rotate back to z = 0 when not moving
         {
@@ -93,6 +116,7 @@ public class Movement : MonoBehaviour
 
                 // This does not use the Character controller to work
                 lookRotation = Quaternion.LookRotation(new Vector3(moveDirectionRaw.x, 0, moveDirectionRaw.z)); // Find out how you shold rotate yourself to look in that direction(ny y direction as well)
+
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * currentRotationsSpeed); // Smoothly rotate towoards that direction
             }
         }
@@ -104,6 +128,7 @@ public class Movement : MonoBehaviour
                 currentRotationsSpeed = maxRotationSpeed;
 
                 lookRotation = Quaternion.LookRotation(new Vector3(moveDirectionRaw.x, 0, moveDirectionRaw.z)); // Find out how you shold rotate yourself to look in that direction(ny y direction as well)
+
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * currentRotationsSpeed); // Smoothly rotate towoards that direction
             }
         }
