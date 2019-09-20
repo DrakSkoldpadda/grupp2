@@ -14,6 +14,13 @@ public class Movement : MonoBehaviour
     [SerializeField] float minRotationSpeed = 5f;
     [SerializeField] float maxRotationSpeed = 10f;
 
+    [Header("Inputs")]
+    [SerializeField] string verticalAxis; // Forward and backwards
+    [SerializeField] string horisontalAxis; // Left and Right 
+
+
+    [SerializeField] string jumpButton;
+    [SerializeField] string sprintButton;
 
 
     [Header("Mechanical Stuff")]
@@ -22,12 +29,20 @@ public class Movement : MonoBehaviour
 
     [SerializeField] float turnAmmountBeforeLeaning = 0.2f;
 
+    [SerializeField] float currentRotation;
+    [SerializeField] float destenatedRotation;
+
+
 
     [Header("LinkableObjects")]
     [SerializeField] Animator animMove;
     [SerializeField] Animator animLean;
-    [SerializeField] Transform cam;
+    [SerializeField] Transform camFolower;
 
+
+    private bool isSprinting = false;
+    private bool isJumping;
+    private float currentSpeed;
 
     private float cooldownBeforeJump;
     private float currentRotationsSpeed;
@@ -37,27 +52,28 @@ public class Movement : MonoBehaviour
     private Vector3 moveDirection;
     private Vector3 moveDirectionRaw;
 
-    [SerializeField] float currentRotation;
-    [SerializeField] float destenatedRotation;
 
     private CharacterController controller;
 
     private Vector3 camForward;
     private Vector3 camRight;
 
-    private ThirdPersonCamera camera;
-    //camera.CurrentX (get)
-
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
-        camera = Camera.main.GetComponent<ThirdPersonCamera>();
     }
+
+    private void Start()
+    {
+        currentSpeed = walkingSpeed;
+    }
+
+
 
     private void FixedUpdate()
     {
-        camForward = cam.forward;
-        camRight = cam.right;
+        camForward = camFolower.forward;
+        camRight = camFolower.right;
 
         camForward.y = 0;
         camRight.y = 0;
@@ -75,37 +91,61 @@ public class Movement : MonoBehaviour
 
     void Move()
     {
+        if (Input.GetButtonDown(sprintButton) && controller.isGrounded)
+        {
+            currentSpeed = sprintingSpeed;
+        }
+
+        if (Input.GetButtonUp(sprintButton) || isJumping == true)
+        {
+            currentSpeed = walkingSpeed;
+        }
 
 
         //moveDirection = new Vector3(Input.GetAxis("Horizontal") * walkingSpeed, moveDirection.y, Input.GetAxis("Vertical") * walkingSpeed);
-        moveDirection = new Vector3((cam.forward.x * Input.GetAxis("Vertical") * walkingSpeed + cam.right.x * Input.GetAxis("Horizontal") * walkingSpeed)
+        moveDirection = new Vector3((camFolower.forward.x * Input.GetAxis(verticalAxis) * currentSpeed + camFolower.right.x * Input.GetAxis(horisontalAxis) * currentSpeed)
             , moveDirection.y
-            , (cam.forward.z * Input.GetAxis("Vertical") * walkingSpeed) + (cam.right.z * Input.GetAxis("Horizontal") * walkingSpeed));
+            , (camFolower.forward.z * Input.GetAxis(verticalAxis) * currentSpeed) + (camFolower.right.z * Input.GetAxis(horisontalAxis) * currentSpeed));
 
 
         if (controller.isGrounded && cooldownBeforeJump <= 0)
         {
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown(jumpButton))
             {
-                moveDirection.y = jumpForce;
+                isJumping = true;
+                NormalJump();
                 cooldownBeforeJump = jumpCooldown;
+
             }
+
         }
         cooldownBeforeJump -= Time.deltaTime;
 
         if (!controller.isGrounded)
         {
+            isJumping = false;
+
             //Applies gravity only when you are not on the groundwa
             moveDirection.y = moveDirection.y + (Physics.gravity.y * graivityScale);
+
+
         }
 
         controller.Move(moveDirection * Time.deltaTime);
     }
 
+    void NormalJump()
+    {
+        moveDirection.y = jumpForce;
+
+    }
+
+
+
     private void RotateMovement()
     {
         //moveDirectionRaw = new Vector3(Input.GetAxisRaw("Horizontal") * walkingSpeed, moveDirection.y, Input.GetAxisRaw("Vertical") * walkingSpeed);
-        moveDirectionRaw = (camForward * Input.GetAxisRaw("Vertical") * walkingSpeed) + (camRight * Input.GetAxisRaw("Horizontal") * walkingSpeed);
+        moveDirectionRaw = (camForward * Input.GetAxisRaw(verticalAxis)) + (camRight * Input.GetAxisRaw(horisontalAxis));
 
 
         if (moveDirection.x < -neededSpeedToTurn || moveDirection.x > neededSpeedToTurn || moveDirection.z < -neededSpeedToTurn || moveDirection.z > neededSpeedToTurn)// So that it dosen't rotate back to z = 0 when not moving
