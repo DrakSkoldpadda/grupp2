@@ -5,9 +5,11 @@ using UnityEngine.AI;
 
 public class Pathfiding : MonoBehaviour
 {
-    private NavMeshAgent agent;
+    [HideInInspector] public NavMeshAgent agent;
 
     [SerializeField] private Transform target;
+
+    [SerializeField] private float aggroRange = 10f;
 
     private void Awake()
     {
@@ -21,8 +23,15 @@ public class Pathfiding : MonoBehaviour
 
     private void Update()
     {
+        if (Vector3.Distance(target.position, transform.position) < aggroRange)
+        {
+            agent.SetDestination(target.position);
+        }
+    }
 
-        agent.SetDestination(target.position);
-
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, aggroRange);
     }
 }

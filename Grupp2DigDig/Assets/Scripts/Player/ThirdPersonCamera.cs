@@ -42,6 +42,8 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void Update()
     {
+
+
         //Tar mus input för flyttar på kameran
         CurrentX += Input.GetAxis("Mouse X") * sensivityX;
         currentY += -Input.GetAxis("Mouse Y") * sensivityY;
@@ -74,6 +76,7 @@ public class ThirdPersonCamera : MonoBehaviour
             wantedCamDistance = cameraMaxDistance;
         }
     }
+
 
     //Så att cameran slår i teräng så att cameran inte åker utanför kartan
     private void CamCollisionDistance()
