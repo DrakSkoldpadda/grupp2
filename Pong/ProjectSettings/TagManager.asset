@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - topBorder
+  - ball
+  - Player2
+  - goal1
+  - goal2
+  - arrow
   layers:
   - Default
   - TransparentFX

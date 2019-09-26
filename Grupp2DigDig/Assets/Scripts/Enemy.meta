@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Grupp2DigDig/Assets/Scripts/Enemy.meta
 guid: 8e60fa20cecddc8419fca8d6da8033a2
+=======
+guid: 25489705390f3b94591fa389d683385d
+>>>>>>> c6802994434bed872a6bb6f26cc7620902002e90:Grupp2DigDig/Assets/Scripts/Enemy.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
