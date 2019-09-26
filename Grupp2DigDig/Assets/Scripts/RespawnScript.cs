@@ -4,36 +4,48 @@ using UnityEngine;
 
 public class RespawnScript : MonoBehaviour
 {
-    [SerializeField]
-    private Transform playerTransform;
-    [SerializeField]
-    private Transform[] RespawnLocations;
+    public GameObject playerTransform;
+    public GameObject[] RespawnLocations;
 
-    private Transform placeToSpawn;
+    public GameObject placeToSpawn;
     public int amountOfSpawnPoints;
+
+    private Animator playerAnimator;
 
     private void Start()
     {
-        RespawnLocations[0] = placeToSpawn;
+        playerAnimator = GetComponent<Animator>();
+        placeToSpawn.transform.position = RespawnLocations[0].transform.position;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<spawnPointScript>() != null)
         {
-            placeToSpawn = RespawnLocations[other.GetComponent<spawnPointScript>().number];
+            placeToSpawn.transform.position = RespawnLocations[other.GetComponent<spawnPointScript>().number].transform.position;
+        }
+         
+        if (other.tag == "dangerous")
+        {
+            Death();
         }
     }
 
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //        Death();
+    //}
+
     public void Death()
     {
-
-        StartCoroutine(whatHappensInRespawn());
+        StartCoroutine(WhatHappensInRespawn());
     }
 
-    IEnumerator whatHappensInRespawn()
+    IEnumerator WhatHappensInRespawn()
     {
+        playerAnimator.SetTrigger("die");
         yield return new WaitForSeconds(2);
-        playerTransform.position = placeToSpawn.position;
+        playerTransform.transform.position = placeToSpawn.transform.position;
     }
 }
