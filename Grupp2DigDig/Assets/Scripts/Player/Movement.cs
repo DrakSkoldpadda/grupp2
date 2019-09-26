@@ -6,21 +6,23 @@ public class Movement : MonoBehaviour
 {
     [Header("Character Stats")]
     [SerializeField] float walkingSpeed = 6f;
-    [SerializeField] float sprintingSpeed = 12f;
+    [SerializeField] float sprintingSpeedMultiplaier = 12f;
 
     [SerializeField] float jumpForce = 7f;
     [SerializeField] float jumpCooldown = 0.5f;
+
+    [SerializeField] float normaljumpAditinalSpeed;
 
     [SerializeField] float minRotationSpeed = 5f;
     [SerializeField] float maxRotationSpeed = 10f;
 
     [Header("Inputs")]
-    [SerializeField] string verticalAxis; // Forward and backwards
-    [SerializeField] string horisontalAxis; // Left and Right 
+    [SerializeField] string verticalAxis = "Vetical"; // Forward and backwards
+    [SerializeField] string horisontalAxis = "Horizontal"; // Left and Right 
 
 
-    [SerializeField] string jumpButton;
-    [SerializeField] string sprintButton;
+    [SerializeField] string jumpButton = "Jump";
+    [SerializeField] string sprintButton = "Sprint";
 
 
     [Header("Mechanical Stuff")]
@@ -37,7 +39,7 @@ public class Movement : MonoBehaviour
     [Header("LinkableObjects")]
     [SerializeField] Animator animMove;
     [SerializeField] Animator animLean;
-    [SerializeField] Transform camFolower;
+    private Transform camFollower;
 
 
     private bool isSprinting = false;
@@ -60,6 +62,7 @@ public class Movement : MonoBehaviour
 
     private void Awake()
     {
+        camFollower = Camera.main.transform;
         controller = GetComponent<CharacterController>();
     }
 
@@ -72,8 +75,8 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        camForward = camFolower.forward;
-        camRight = camFolower.right;
+        camForward = camFollower.forward;
+        camRight = camFollower.right;
 
         camForward.y = 0;
         camRight.y = 0;
@@ -91,9 +94,11 @@ public class Movement : MonoBehaviour
 
     void Move()
     {
+        cooldownBeforeJump -= Time.deltaTime;
+
         if (Input.GetButtonDown(sprintButton) && controller.isGrounded)
         {
-            currentSpeed = sprintingSpeed;
+            currentSpeed *= sprintingSpeedMultiplaier;
         }
 
         if (Input.GetButtonUp(sprintButton) || isJumping == true)
@@ -103,9 +108,9 @@ public class Movement : MonoBehaviour
 
 
         //moveDirection = new Vector3(Input.GetAxis("Horizontal") * walkingSpeed, moveDirection.y, Input.GetAxis("Vertical") * walkingSpeed);
-        moveDirection = new Vector3((camFolower.forward.x * Input.GetAxis(verticalAxis) * currentSpeed + camFolower.right.x * Input.GetAxis(horisontalAxis) * currentSpeed)
+        moveDirection = new Vector3((camFollower.forward.x * Input.GetAxis(verticalAxis) * currentSpeed + camFollower.right.x * Input.GetAxis(horisontalAxis) * currentSpeed)
             , moveDirection.y
-            , (camFolower.forward.z * Input.GetAxis(verticalAxis) * currentSpeed) + (camFolower.right.z * Input.GetAxis(horisontalAxis) * currentSpeed));
+            , (camFollower.forward.z * Input.GetAxis(verticalAxis) * currentSpeed) + (camFollower.right.z * Input.GetAxis(horisontalAxis) * currentSpeed));
 
 
         if (controller.isGrounded && cooldownBeforeJump <= 0)
@@ -119,7 +124,7 @@ public class Movement : MonoBehaviour
             }
 
         }
-        cooldownBeforeJump -= Time.deltaTime;
+
 
         if (!controller.isGrounded)
         {
@@ -136,7 +141,12 @@ public class Movement : MonoBehaviour
 
     void NormalJump()
     {
-        moveDirection.y = jumpForce;
+        for (int i = 0; i < 0; i++)
+        {
+            moveDirection = new Vector3((camFollower.forward.x * Input.GetAxis(verticalAxis) * normaljumpAditinalSpeed + camFollower.right.x * Input.GetAxis(horisontalAxis) * normaljumpAditinalSpeed)
+                , jumpForce
+                , (camFollower.forward.z * Input.GetAxis(verticalAxis) * normaljumpAditinalSpeed) + (camFollower.right.z * Input.GetAxis(horisontalAxis) * normaljumpAditinalSpeed));
+        }
 
     }
 
