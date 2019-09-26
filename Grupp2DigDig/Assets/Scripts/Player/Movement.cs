@@ -17,7 +17,7 @@ public class Movement : MonoBehaviour
     [SerializeField] float maxRotationSpeed = 10f;
 
     [Header("Inputs")]
-    [SerializeField] string verticalAxis = "Vetical"; // Forward and backwards
+    [SerializeField] string verticalAxis = "Vertical"; // Forward and backwards
     [SerializeField] string horisontalAxis = "Horizontal"; // Left and Right 
 
 
