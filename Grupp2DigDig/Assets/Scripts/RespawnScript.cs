@@ -24,7 +24,6 @@ public class RespawnScript : MonoBehaviour
         {
             placeToSpawn.transform.position = RespawnLocations[other.GetComponent<spawnPointScript>().number].transform.position;
         }
-         
         if (other.tag == "dangerous")
         {
             Death();
@@ -45,6 +44,8 @@ public class RespawnScript : MonoBehaviour
     IEnumerator WhatHappensInRespawn()
     {
         playerAnimator.SetTrigger("die");
+
+        Debug.Log("checks");
         yield return new WaitForSeconds(2);
         playerTransform.transform.position = placeToSpawn.transform.position;
     }
