@@ -8,18 +8,18 @@ public class ThirdPersonCamera : MonoBehaviour
     private Transform lookAtTarget;
     private Transform target;
 
-    [SerializeField] private float cameraMinDistance = 3f;
-    [SerializeField] private float cameraMaxDistance = 13f;
-    [SerializeField] private float wantedCamDistance;
+    [SerializeField] private float cameraMinDistance = 2f;
+    [SerializeField] private float cameraMaxDistance = 10f;
+    private float wantedCamDistance = 5f;
     private float currentCamDistance;
 
     [SerializeField] private float sensivityX = 1f;
     [SerializeField] private float sensivityY = 0.5f;
 
-    [SerializeField] private float smoothTime = 0.05f;
+    [SerializeField] private float smoothTime = 0.02f;
 
-    private const float YAngleMin = -10f;
-    private const float YAngleMax = 80f;
+    private const float YAngleMin = -5f;
+    private const float YAngleMax = 35f;
 
     //Så att movement scriptet kan använda variabeln
     public float CurrentX { get; private set; }
@@ -36,14 +36,10 @@ public class ThirdPersonCamera : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         lookAtTarget = target;
-
-        wantedCamDistance = 7f;
     }
 
     private void Update()
     {
-
-
         //Tar mus input för flyttar på kameran
         CurrentX += Input.GetAxis("Mouse X") * sensivityX;
         currentY += -Input.GetAxis("Mouse Y") * sensivityY;
@@ -54,6 +50,22 @@ public class ThirdPersonCamera : MonoBehaviour
         WantedCamDistance();
 
         CamCollisionDistance();
+    }
+
+    //Så att cameran slår i teräng så att cameran inte åker utanför kartan
+    private void CamCollisionDistance()
+    {
+        RaycastHit hit;
+        float wallBuffer = 0.01f;
+
+        if (Physics.Raycast(target.position, -transform.TransformDirection(Vector3.forward), out hit, wantedCamDistance, LayerMask.GetMask("Terrain")))
+        {
+            currentCamDistance = hit.distance - wallBuffer;
+        }
+        else
+        {
+            currentCamDistance = wantedCamDistance;
+        }
     }
 
     //Så att man kan scrolla in och ut från karaktären
@@ -77,23 +89,6 @@ public class ThirdPersonCamera : MonoBehaviour
         }
     }
 
-
-    //Så att cameran slår i teräng så att cameran inte åker utanför kartan
-    private void CamCollisionDistance()
-    {
-        RaycastHit hit;
-        float wallBuffer = 2f;
-
-        if (Physics.Raycast(target.position, -transform.TransformDirection(Vector3.forward), out hit, wantedCamDistance, LayerMask.GetMask("Terrain")))
-        {
-            currentCamDistance = hit.distance - wallBuffer;
-        }
-        else
-        {
-            currentCamDistance = wantedCamDistance;
-        }
-    }
-
     private void FixedUpdate()
     {
         Vector3 velocity = Vector3.zero;
@@ -107,8 +102,6 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void LateUpdate()
     {
-        //transform.position = target.position + rotation * dir;
-
         //Vad kameran ska kolla på
         transform.LookAt(lookAtTarget.position);
     }
