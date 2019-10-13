@@ -9,7 +9,7 @@ public class Pathfiding : MonoBehaviour
 
     [SerializeField] private Transform target;
 
-    [SerializeField] private float aggroRange = 10f;
+    [SerializeField] private float aggroRange = 3.5f;
 
     private void Awake()
     {
