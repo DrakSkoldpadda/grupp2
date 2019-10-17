@@ -25,16 +25,19 @@ public class ThirdPersonCamera : MonoBehaviour
     public float CurrentX { get; private set; }
     private float currentY = 0f;
 
+    [HideInInspector] public bool canUseCamera;
+    [HideInInspector] public bool isInMenu;
+
     private void Awake()
     {
-        target = GameObject.FindWithTag("Player").transform;
+        if (GameObject.FindWithTag("Player") != null)
+        {
+            target = GameObject.FindWithTag("Player").transform;
+        }
     }
 
     private void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
         lookAtTarget = target;
     }
 
