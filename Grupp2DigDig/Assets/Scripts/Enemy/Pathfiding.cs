@@ -7,9 +7,11 @@ public class Pathfiding : MonoBehaviour
 {
     [HideInInspector] public NavMeshAgent agent;
 
-    [SerializeField] private Transform target;
+    private Transform target;
 
     [SerializeField] private float aggroRange = 3.5f;
+
+    [SerializeField] private float moveSpeed = 10f;
 
     private void Awake()
     {
@@ -19,6 +21,11 @@ public class Pathfiding : MonoBehaviour
         {
             target = GameObject.FindWithTag("Player").transform;
         }
+    }
+
+    private void Start()
+    {
+        agent.speed = moveSpeed;
     }
 
     private void Update()

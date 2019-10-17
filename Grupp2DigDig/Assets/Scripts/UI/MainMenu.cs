@@ -13,25 +13,39 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject optionsMenu;
     [SerializeField] private GameObject pauseMenu;
 
-    [SerializeField] private Button backButton;
     [SerializeField] private Button optionsButton;
+    [SerializeField] private Button backButton;
 
     private bool isInMainMenu = true;
     private bool isInPauseMenu = false;
 
-    private void Update()
+    private void Awake()
     {
-        if (Input.GetButtonDown("Pause"))
+        if (isInMainMenu)
         {
-
+            MouseLockState(true);
+            mainMenu.SetActive(true);
+            optionsMenu.SetActive(false);
+            pauseMenu.gameObject.SetActive(false);
         }
     }
 
-    public void StartButton()
+    private void Update()
+    {
+        if (Input.GetButtonDown("Pause") && !isInMainMenu)
+        {
+            isInPauseMenu = true;
+            pauseMenu.SetActive(true);
+        }
+    }
+
+    public void PlayButton()
     {
         mainMenu.SetActive(false);
         optionsMenu.SetActive(false);
         isInMainMenu = false;
+
+        MouseLockState(false);
     }
 
     public void OptionsButton()
@@ -50,6 +64,22 @@ public class MainMenu : MonoBehaviour
     public void BackButton()
     {
         optionsMenu.SetActive(false);
+        mainMenu.SetActive(true);
         optionsButton.Select();
+    }
+
+    private void MouseLockState(bool lockState)
+    {
+        if (lockState)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 }
