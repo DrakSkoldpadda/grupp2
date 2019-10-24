@@ -34,8 +34,19 @@ public class MainMenu : MonoBehaviour
     {
         if (Input.GetButtonDown("Pause") && !isInMainMenu)
         {
-            isInPauseMenu = true;
-            pauseMenu.SetActive(true);
+            if (isInPauseMenu)
+            {
+                isInPauseMenu = true;
+                pauseMenu.SetActive(true);
+                MouseLockState(true);
+            }
+
+            else
+            {
+                isInPauseMenu = true;
+                pauseMenu.SetActive(true);
+                MouseLockState(false);
+            }
         }
     }
 
