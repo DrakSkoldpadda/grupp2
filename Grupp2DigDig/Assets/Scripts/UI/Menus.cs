@@ -45,16 +45,16 @@ public class Menus : MonoBehaviour
         {
             if (isInPauseMenu)
             {
-                isInPauseMenu = true;
-                pauseMenu.SetActive(true);
-                MouseLockState(true);
+                isInPauseMenu = false;
+                pauseMenu.SetActive(false);
+                MouseLockState(false);
             }
 
             else
             {
                 isInPauseMenu = true;
                 pauseMenu.SetActive(true);
-                MouseLockState(false);
+                MouseLockState(true);
             }
         }
     }
@@ -82,10 +82,18 @@ public class Menus : MonoBehaviour
 
     public void OptionsButton()
     {
+        pauseMenu.SetActive(false);
         mainMenu.SetActive(false);
         optionsMenu.SetActive(true);
 
         backButton.Select();
+    }
+
+    public void Resume()
+    {
+        pauseMenu.SetActive(false);
+
+        isInPauseMenu = false;
     }
 
     public void BackButton()
