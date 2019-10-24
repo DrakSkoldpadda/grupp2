@@ -5,60 +5,64 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     [Header("Character Stats")]
-    [SerializeField] float walkingSpeed = 6f;
-    [SerializeField] float sprintingSpeedMultiplaier = 12f;
-
-    [SerializeField] float jumpForce = 7f;
-    [SerializeField] float jumpCooldown = 0.5f;
-
-    [SerializeField] float normaljumpAditinalSpeed;
-
-    [SerializeField] float minRotationSpeed = 5f;
-    [SerializeField] float maxRotationSpeed = 10f;
-
-    [Header("Inputs")]
-    [SerializeField] string verticalAxis = "Vertical"; // Forward and backwards
-    [SerializeField] string horisontalAxis = "Horizontal"; // Left and Right 
-
-
-    [SerializeField] string jumpButton = "Jump";
-    [SerializeField] string sprintButton = "Sprint";
-
-
-    [Header("Mechanical Stuff")]
-    [SerializeField] float neededSpeedToTurn = 3f;
-    [SerializeField] float graivityScale = 0.07f;
-
-    [SerializeField] float turnAmmountBeforeLeaning = 0.2f;
-
-    [SerializeField] float currentRotation;
-    [SerializeField] float destenatedRotation;
-
-
-
-    [Header("LinkableObjects")]
-    [SerializeField] Animator animMove;
-    [SerializeField] Animator animLean;
-    private Transform camFollower;
-
+    [SerializeField] private float walkingSpeed = 6f;
+    [SerializeField] private float sprintingSpeedMultiplaier = 2f;
 
     private bool isSprinting = false;
     private bool isJumping;
     private float currentSpeed;
 
+    [Header("")]
+    [SerializeField] private float jumpForce = 7f;
+    [SerializeField] private float jumpCooldown = 0.5f;
+
+    [SerializeField] private float normaljumpAditinalSpeed;
+
     private float cooldownBeforeJump;
     private float currentRotationsSpeed;
+
+    [Header("")]
+    [SerializeField] private float minRotationSpeed = 5f;
+    [SerializeField] private float maxRotationSpeed = 10f;
+
+
+    [Header("Inputs")]
+    [SerializeField] private string verticalAxis = "Vertical"; // Forward and backwards
+    [SerializeField] private string horisontalAxis = "Horizontal"; // Left and Right 
+
+    [SerializeField] private string jumpButton = "Jump";
+    [SerializeField] private string sprintButton = "Sprint";
+
+
+    [Header("Mechanical Stuff")]
+    [SerializeField] private float neededSpeedToTurn = 3f;
+    [SerializeField] private float graivityScale = 0.07f;
+
+    [SerializeField] private float turnAmmountBeforeLeaning = 0.2f;
+
+    [Header("")]
+    [SerializeField] private float currentRotation;
+    [SerializeField] private float destenatedRotation;
+
+
+    [Header("LinkableObjects")]
+    [SerializeField] private Animator animMove;
+    [SerializeField] private Animator animLean;
+    private Transform camFollower;
 
     private Quaternion lookRotation;
 
     private Vector3 moveDirection;
     private Vector3 moveDirectionRaw;
 
-
     private CharacterController controller;
 
     private Vector3 camForward;
     private Vector3 camRight;
+
+
+    enum PlayerState { Running, Walking, Jumping }
+    PlayerState currentState;
 
     private void Awake()
     {
@@ -70,8 +74,6 @@ public class Movement : MonoBehaviour
     {
         currentSpeed = walkingSpeed;
     }
-
-
 
     private void FixedUpdate()
     {
@@ -91,7 +93,6 @@ public class Movement : MonoBehaviour
         //LeanAnimation(); // Work in progress ;3
     }
 
-
     void Move()
     {
         cooldownBeforeJump -= Time.deltaTime;
@@ -106,11 +107,14 @@ public class Movement : MonoBehaviour
             currentSpeed = walkingSpeed;
         }
 
+        if (isJumping == false)
+        {
+            //moveDirection = new Vector3(Input.GetAxis("Horizontal") * walkingSpeed, moveDirection.y, Input.GetAxis("Vertical") * walkingSpeed);
+            moveDirection = new Vector3((camFollower.forward.x * Input.GetAxis(verticalAxis) * currentSpeed + camFollower.right.x * Input.GetAxis(horisontalAxis) * currentSpeed)
+                , moveDirection.y
+                , (camFollower.forward.z * Input.GetAxis(verticalAxis) * currentSpeed) + (camFollower.right.z * Input.GetAxis(horisontalAxis) * currentSpeed));
 
-        //moveDirection = new Vector3(Input.GetAxis("Horizontal") * walkingSpeed, moveDirection.y, Input.GetAxis("Vertical") * walkingSpeed);
-        moveDirection = new Vector3((camFollower.forward.x * Input.GetAxis(verticalAxis) * currentSpeed + camFollower.right.x * Input.GetAxis(horisontalAxis) * currentSpeed)
-            , moveDirection.y
-            , (camFollower.forward.z * Input.GetAxis(verticalAxis) * currentSpeed) + (camFollower.right.z * Input.GetAxis(horisontalAxis) * currentSpeed));
+        }
 
 
         if (controller.isGrounded && cooldownBeforeJump <= 0)
@@ -124,7 +128,6 @@ public class Movement : MonoBehaviour
             }
 
         }
-
 
         if (!controller.isGrounded)
         {
@@ -141,15 +144,9 @@ public class Movement : MonoBehaviour
 
     void NormalJump()
     {
-        for (int i = 0; i < 0; i++)
-        {
-            moveDirection = new Vector3((camFollower.forward.x * Input.GetAxis(verticalAxis) * normaljumpAditinalSpeed + camFollower.right.x * Input.GetAxis(horisontalAxis) * normaljumpAditinalSpeed)
-                , jumpForce
-                , (camFollower.forward.z * Input.GetAxis(verticalAxis) * normaljumpAditinalSpeed) + (camFollower.right.z * Input.GetAxis(horisontalAxis) * normaljumpAditinalSpeed));
-        }
+        moveDirection.y = jumpForce;
 
     }
-
 
 
     private void RotateMovement()

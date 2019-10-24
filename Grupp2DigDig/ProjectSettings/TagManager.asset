@@ -4,6 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Terrain
+  - Enemy
   - dangerous
   layers:
   - Default
@@ -14,8 +16,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Terrain
+  - Player
   - 
   - 
   - 
