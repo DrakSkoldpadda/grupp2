@@ -4,11 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.Audio;
 
-public class MainMenu : MonoBehaviour
+public class Menus : MonoBehaviour
 {
-    [SerializeField] private EventSystem eventSystem;
-
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject optionsMenu;
     [SerializeField] private GameObject pauseMenu;
@@ -19,6 +18,10 @@ public class MainMenu : MonoBehaviour
     private bool isInMainMenu = true;
     private bool isInPauseMenu = false;
 
+    [SerializeField] private Slider audioSlider;
+    [SerializeField] private AudioMixer mixer;
+
+
     private void Awake()
     {
         if (isInMainMenu)
@@ -28,6 +31,12 @@ public class MainMenu : MonoBehaviour
             optionsMenu.SetActive(false);
             pauseMenu.gameObject.SetActive(false);
         }
+    }
+
+    private void Start()
+    {
+        mixer.GetFloat("MasterVolume", out float value);
+        audioSlider.value = value;
     }
 
     private void Update()
@@ -50,6 +59,18 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public float volumeValue;
+
+    public void SetLevel(float sliderValue)
+    {
+        mixer.SetFloat("MasterVolume", Mathf.Log10(sliderValue) * 20);
+
+        if (sliderValue == 0f)
+        {
+            mixer.SetFloat("MasterVolume", -80f);
+        }
+    }
+
     public void PlayButton()
     {
         mainMenu.SetActive(false);
@@ -67,16 +88,24 @@ public class MainMenu : MonoBehaviour
         backButton.Select();
     }
 
-    public void QuitButton()
-    {
-        Application.Quit();
-    }
-
     public void BackButton()
     {
         optionsMenu.SetActive(false);
-        mainMenu.SetActive(true);
         optionsButton.Select();
+
+        if (isInMainMenu)
+        {
+            mainMenu.SetActive(true);
+        }
+        else if (isInPauseMenu)
+        {
+            pauseMenu.SetActive(true);
+        }
+    }
+
+    public void QuitButton()
+    {
+        Application.Quit();
     }
 
     private void MouseLockState(bool lockState)
