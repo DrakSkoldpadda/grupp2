@@ -24,7 +24,7 @@ public class RespawnScript : MonoBehaviour
         {
             placeToSpawn.transform.position = RespawnLocations[other.GetComponent<spawnPointScript>().number].transform.position;
         }
-        if (other.tag == "dangerous" && !alreadyDead)
+        if (other.tag == "Enemy" && !alreadyDead)
         {
             Death();
         }
