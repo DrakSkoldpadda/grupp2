@@ -23,9 +23,9 @@ public class PlankCollidersScript : MonoBehaviour
     IEnumerator GoAway()
     {
 
-        for (float i = 0; i < 2000; i++)
+        for (float i = 0; i < 1000; i++)
         {
-            transform.Translate(0, i/2000f, 0);
+            transform.Translate(0, i/1000f, 0);
 
             yield return new WaitForFixedUpdate();
         }

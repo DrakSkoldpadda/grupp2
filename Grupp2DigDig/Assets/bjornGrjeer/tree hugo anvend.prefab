@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 7336546430681095949}
   - component: {fileID: 1133740228777267667}
   - component: {fileID: 6643828840368168921}
+  - component: {fileID: 3664699569708021200}
   m_Layer: 0
-  m_Name: pCube8
+  m_Name: tree hugo anvend
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4222609014249975485}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 11.785202, y: 9.161632, z: 75.77533}
   m_LocalScale: {x: 0.72, y: 0.72, z: 0.72}
   m_Children: []
@@ -78,3 +79,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!136 &3664699569708021200
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4222609014249975485}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.12
+  m_Height: 26.66
+  m_Direction: 1
+  m_Center: {x: 0.45, y: -0.0025281904, z: 0.15}
