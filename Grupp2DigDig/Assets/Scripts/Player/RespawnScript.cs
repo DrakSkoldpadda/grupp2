@@ -30,12 +30,13 @@ public class RespawnScript : MonoBehaviour
         }
     }
 
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //        Death();
-    //}
-
+#if UNITY_EDITOR
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+            Death();
+    }
+#endif
     public void Death()
     {
         StartCoroutine(WhatHappensInRespawn());

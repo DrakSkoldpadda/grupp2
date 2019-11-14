@@ -13,7 +13,8 @@ public class Movement : MonoBehaviour
     private float currentSpeed;
 
     [Header("")]
-    [SerializeField] private float jumpForce = 7f;
+    [SerializeField] private float sprintJumpForce = 4f; 
+    [SerializeField] private float jumpForce = 6f;
     [SerializeField] private float jumpCooldown = 0.5f;
 
     [SerializeField] private float normaljumpAditinalSpeed;
