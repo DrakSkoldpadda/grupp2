@@ -8,38 +8,63 @@ using UnityEngine.Audio;
 
 public class Menus : MonoBehaviour
 {
+    [Header("Menus")]
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject optionsMenu;
+    [SerializeField] private GameObject keybindingsMenu;
     [SerializeField] private GameObject pauseMenu;
 
+    [Header("Buttons")]
+    [SerializeField] private Button controllerSelectedButton;
     [SerializeField] private Button optionsButton;
     [SerializeField] private Button backButton;
+    [SerializeField] private Button optionsBackButton;
+    [SerializeField] private Button keybindingsBackButton;
+    [SerializeField] private Button pauseResumeButton;
 
     private bool isInMainMenu = true;
+    private bool isInOptionsMenu = false;
+    private bool isInKeybindingsMenu = false;
     private bool isInPauseMenu = false;
 
     [SerializeField] private Slider audioSlider;
     [SerializeField] private AudioMixer mixer;
 
-
     private void Awake()
     {
         if (isInMainMenu)
         {
-            MouseLockState(true);
+            MouseLockState(false);
             mainMenu.SetActive(true);
             optionsMenu.SetActive(false);
-            pauseMenu.gameObject.SetActive(false);
+            pauseMenu.SetActive(false);
+            keybindingsMenu.SetActive(false);
         }
     }
+
+    private bool firstTime = false;
 
     private void Start()
     {
         mixer.GetFloat("MasterVolume", out float value);
         audioSlider.value = value;
+
+        firstTime = true;
     }
 
     private void Update()
+    {
+        if (Input.GetButton("Vertical") && firstTime)
+        {
+            firstTime = false;
+
+            controllerSelectedButton.Select();
+        }
+
+        Pause();
+    }
+
+    private void Pause()
     {
         if (Input.GetButtonDown("Pause") && !isInMainMenu)
         {
@@ -47,14 +72,15 @@ public class Menus : MonoBehaviour
             {
                 isInPauseMenu = false;
                 pauseMenu.SetActive(false);
-                MouseLockState(false);
+                MouseLockState(true);
             }
 
             else
             {
+                controllerSelectedButton = pauseResumeButton;
                 isInPauseMenu = true;
                 pauseMenu.SetActive(true);
-                MouseLockState(true);
+                MouseLockState(false);
             }
         }
     }
@@ -77,7 +103,7 @@ public class Menus : MonoBehaviour
         optionsMenu.SetActive(false);
         isInMainMenu = false;
 
-        MouseLockState(false);
+        MouseLockState(true);
     }
 
     public void OptionsButton()
@@ -86,7 +112,17 @@ public class Menus : MonoBehaviour
         mainMenu.SetActive(false);
         optionsMenu.SetActive(true);
 
-        backButton.Select();
+        controllerSelectedButton = backButton;
+    }
+
+    public void KeybindingsMenu()
+    {
+        isInKeybindingsMenu = true;
+
+        keybindingsMenu.SetActive(true);
+        optionsMenu.SetActive(false);
+
+        controllerSelectedButton = keybindingsBackButton;
     }
 
     public void Resume()
@@ -99,11 +135,20 @@ public class Menus : MonoBehaviour
     public void BackButton()
     {
         optionsMenu.SetActive(false);
-        optionsButton.Select();
+        controllerSelectedButton = optionsButton;
 
         if (isInMainMenu)
         {
-            mainMenu.SetActive(true);
+            if (isInOptionsMenu)
+            {
+                mainMenu.SetActive(true);
+            }
+            if (isInKeybindingsMenu)
+            {
+                optionsMenu.SetActive(true);
+
+                controllerSelectedButton = optionsBackButton;
+            }
         }
         else if (isInPauseMenu)
         {
@@ -118,7 +163,7 @@ public class Menus : MonoBehaviour
 
     private void MouseLockState(bool lockState)
     {
-        if (lockState)
+        if (!lockState)
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
