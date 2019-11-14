@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 7294910559849690017}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -11.038, y: -0.2, z: 10.514513}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1e839d810bd627f45ad8f4bf02960f3a, type: 2}
+  - {fileID: 2100000, guid: 1406226251236c840b42c8a186a9684e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95,8 +95,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
-  target: {fileID: 0}
-  aggroRange: 10
+  aggroRange: 12.1
+  moveSpeed: 6.82
 --- !u!136 &7294910559849690016
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -107,7 +107,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 1.85
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -121,8 +121,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.8
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 10
+  m_Acceleration: 46.31
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 1.25

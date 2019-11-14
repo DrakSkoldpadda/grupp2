@@ -24,18 +24,19 @@ public class RespawnScript : MonoBehaviour
         {
             placeToSpawn.transform.position = RespawnLocations[other.GetComponent<spawnPointScript>().number].transform.position;
         }
-        if (other.tag == "dangerous" && !alreadyDead)
+        if (other.tag == "Enemy" && !alreadyDead)
         {
             Death();
         }
     }
 
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //        Death();
-    //}
-
+#if UNITY_EDITOR
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+            Death();
+    }
+#endif
     public void Death()
     {
         StartCoroutine(WhatHappensInRespawn());
