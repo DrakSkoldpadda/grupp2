@@ -7,6 +7,9 @@ public class Pathfiding : MonoBehaviour
 {
     [HideInInspector] public NavMeshAgent agent;
 
+    private Animator animator;
+    private Rigidbody rbdy;
+
     private Transform target;
 
     [SerializeField] private float aggroRange = 3.5f;
@@ -16,24 +19,34 @@ public class Pathfiding : MonoBehaviour
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        rbdy = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
 
         if (target == null)
         {
             target = GameObject.FindWithTag("Player").transform;
         }
+
+
     }
 
     private void Start()
     {
+
         agent.speed = moveSpeed;
     }
 
     private void Update()
     {
+
+
         if (Vector3.Distance(target.position, transform.position) < aggroRange)
         {
             agent.SetDestination(target.position);
+            animator.SetFloat("speed", 1f);
         }
+        else
+            animator.SetFloat("speed", 0f);
     }
 
     void OnDrawGizmos()
