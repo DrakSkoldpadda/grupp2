@@ -30,26 +30,20 @@ public class Menus : MonoBehaviour
     [SerializeField] private Slider audioSlider;
     [SerializeField] private AudioMixer mixer;
 
-    private void Awake()
-    {
-        if (isInMainMenu)
-        {
-            MouseLockState(false);
-            mainMenu.SetActive(true);
-            optionsMenu.SetActive(false);
-            pauseMenu.SetActive(false);
-            keybindingsMenu.SetActive(false);
-        }
-    }
-
     private bool firstTime = false;
 
     private void Start()
     {
-        mixer.GetFloat("MasterVolume", out float value);
-        audioSlider.value = value;
+        mixer.SetFloat("MasterVolume", volumeValue);
+        audioSlider.value = volumeValue;
 
         firstTime = true;
+
+        MouseLockState(false);
+        mainMenu.SetActive(true);
+        optionsMenu.SetActive(false);
+        pauseMenu.SetActive(false);
+        keybindingsMenu.SetActive(false);
     }
 
     private void Update()

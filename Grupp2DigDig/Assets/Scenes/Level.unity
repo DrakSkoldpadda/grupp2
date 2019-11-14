@@ -203,7 +203,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1327412354}
-        m_MethodName: OptionsButton
+        m_MethodName: KeybindingsMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -816,7 +816,7 @@ RectTransform:
   m_Children:
   - {fileID: 1279372453}
   m_Father: {fileID: 1089033320}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1319,7 +1319,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -646.65, y: -0.049988}
+  m_AnchoredPosition: {x: -646.65, y: -0.049987793}
   m_SizeDelta: {x: 626.7, y: 0.1}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &719928006
@@ -2059,8 +2059,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1396579087}
   - {fileID: 283199698}
+  - {fileID: 1396579087}
   - {fileID: 1874886566}
   - {fileID: 646434378}
   m_Father: {fileID: 1617809594}
@@ -2238,8 +2238,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 156.68, y: 116.9}
-  m_SizeDelta: {x: 313.35, y: 646.1}
+  m_AnchoredPosition: {x: 178.35004, y: 24.3}
+  m_SizeDelta: {x: 270, y: 460.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1128227991
 MonoBehaviour:
@@ -2759,14 +2759,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenu: {fileID: 193651924}
   optionsMenu: {fileID: 728601906}
-  keybindingsMenu: {fileID: 0}
+  keybindingsMenu: {fileID: 676993303}
   pauseMenu: {fileID: 1089033319}
-  playButton: {fileID: 849374968}
+  controllerSelectedButton: {fileID: 849374968}
   optionsButton: {fileID: 1090412972}
   backButton: {fileID: 2085881110}
+  optionsBackButton: {fileID: 2085881110}
+  keybindingsBackButton: {fileID: 1864836140}
+  pauseResumeButton: {fileID: 283199699}
   audioSlider: {fileID: 146061795}
   mixer: {fileID: 24100000, guid: 3de3ab80565b9f44b90eaf5d970765d5, type: 2}
-  volumeValue: 0
+  volumeValue: 100
 --- !u!1 &1372252707
 GameObject:
   m_ObjectHideFlags: 0
@@ -3031,7 +3034,7 @@ RectTransform:
   m_Children:
   - {fileID: 1515609770}
   m_Father: {fileID: 1089033320}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3936,7 +3939,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.025024, y: -318}
+  m_AnchoredPosition: {x: -0.025024414, y: -318}
   m_SizeDelta: {x: 158.5, y: 40.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1864836140
@@ -4067,8 +4070,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -156.67, y: 116.9}
-  m_SizeDelta: {x: 313.35, y: 646.1}
+  m_AnchoredPosition: {x: -178.35, y: 24.3}
+  m_SizeDelta: {x: 270, y: 460.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1874689140
 MonoBehaviour:
@@ -4128,7 +4131,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 260
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
