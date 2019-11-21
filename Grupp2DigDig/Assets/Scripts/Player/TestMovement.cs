@@ -6,6 +6,7 @@ public class TestMovement : MonoBehaviour
 {
     [Header("Character Properties")]
     [SerializeField] private float walkingSpeed = 6f;
+    [SerializeField] private float straifingSpee = 2;
     [SerializeField] private float sprintingSpeedMultiplaier = 12f;
     [SerializeField] private float decelerationSpeed;
 
@@ -17,6 +18,7 @@ public class TestMovement : MonoBehaviour
 
     public float velocityForStunned;
     private bool stunned = false;
+    public float stunnedDuration = 1f;
 
     [Header("")]
     [SerializeField] private float sprintJumpForce = 4f;
@@ -155,7 +157,13 @@ public class TestMovement : MonoBehaviour
         direction = transform.TransformDirection(-Vector3.up);
         RaycastHit hit;
 
-        if (Physics.SphereCast(origin, sphareRadius, direction, out hit, maxDistance, layerMask))
+        if(Physics.SphereCast(origin, sphareRadius, direction, out hit, maxDistance, layerMask) && !isGrounded)
+        {
+            isGrounded = true;
+            if(currentVelocity >= velocityForStunned)
+            StartCoroutine(Stunnded());
+        }
+        else if (Physics.SphereCast(origin, sphareRadius, direction, out hit, maxDistance, layerMask))
         {
             currentHitObject = hit.transform.gameObject;
             currentHitDistance = hit.distance;
@@ -265,14 +273,18 @@ public class TestMovement : MonoBehaviour
 
         }
 
-        if ((currentMovingState == PlayerMovingState.walking || currentMovingState == PlayerMovingState.running) && isGrounded && !stunned)
+        if ((currentMovingState == PlayerMovingState.walking || currentMovingState == PlayerMovingState.running) && !stunned)
         {
             Debug.Log("Is suposed to move");
             moveDirection = new Vector3((camFollower.forward.x * zInputValue + camFollower.right.x * xInputValue)
                 , 0.0f
                 , (camFollower.forward.z * zInputValue) + (camFollower.right.z * xInputValue));
 
-            rigBody.AddForce(moveDirection.x * currentSpeed / Time.deltaTime, 0.0f, moveDirection.z * currentSpeed / Time.deltaTime);
+            //if(!isGrounded)
+            //    rigBody.AddForce(moveDirection.x * straifingSpee / Time.deltaTime, 0.0f, moveDirection.z * straifingSpee / Time.deltaTime);
+
+            if (isGrounded)
+                rigBody.AddForce(moveDirection.x * currentSpeed / Time.deltaTime, 0.0f, moveDirection.z * currentSpeed / Time.deltaTime);
         }// If you are not standing still. Well then... Um.. move?
         else if (currentMovingState == PlayerMovingState.standingStill && isGrounded)
         {
@@ -283,9 +295,6 @@ public class TestMovement : MonoBehaviour
         // Limits my moving speed. So that the character dosen't accelerate to the third dimension you know?
         if (rigBody.velocity.magnitude > currentSpeed && !isJumping)
         {
-            //maximumValecity = new Vector3(moveDirection.x * currentSpeed / Time.deltaTime, 0.0f, moveDirection.z * currentSpeed / Time.deltaTime).normalized * currentSpeed;
-
-            //rigBody.velocity = new Vector3(maximumValecity.x, rigBody.velocity.y, maximumValecity.z);
 
             rigBody.velocity = rigBody.velocity.normalized * currentSpeed;
 
@@ -293,6 +302,8 @@ public class TestMovement : MonoBehaviour
 
 
     }
+
+
 
     void NormalJump()
     {
@@ -311,6 +322,12 @@ public class TestMovement : MonoBehaviour
         rigBody.AddForce((transform.forward * sprintJumpForce), ForceMode.Impulse);
     }
 
+    IEnumerator Stunnded()
+    {
+        stunned = true;
+        yield return new WaitForSeconds(stunnedDuration);
+        stunned = false;
+    }
 
     private void RotateMovement()
     {

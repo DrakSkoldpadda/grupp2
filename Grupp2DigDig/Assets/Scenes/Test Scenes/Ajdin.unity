@@ -257,7 +257,8 @@ MonoBehaviour:
   sprintingSpeedMultiplaier: 2
   decelerationSpeed: 0.85
   isGrounded: 0
-  velocityForStunned: 0
+  velocityForStunned: 15
+  stunnedDuration: 1
   sprintJumpForce: 4
   jumpUpForce: 6
   jumpForwardForce: 0
