@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class Menus : MonoBehaviour
 {
@@ -17,18 +18,21 @@ public class Menus : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private Button controllerSelectedButton;
     [SerializeField] private Button optionsButton;
+    [SerializeField] private Button pauseOptionsButton;
+    [SerializeField] private Button pauseResumeButton;
     [SerializeField] private Button backButton;
     [SerializeField] private Button optionsBackButton;
     [SerializeField] private Button keybindingsBackButton;
-    [SerializeField] private Button pauseResumeButton;
+
+    [Header("Things")]
+    [SerializeField] private Slider audioSlider;
+    [SerializeField] private AudioMixer mixer;
+    [SerializeField] private RespawnScript startPoint;
 
     private bool isInMainMenu = true;
     private bool isInOptionsMenu = false;
     private bool isInKeybindingsMenu = false;
     private bool isInPauseMenu = false;
-
-    [SerializeField] private Slider audioSlider;
-    [SerializeField] private AudioMixer mixer;
 
     private bool firstTime = false;
 
@@ -60,28 +64,36 @@ public class Menus : MonoBehaviour
 
     private void Pause()
     {
-        if (Input.GetButtonDown("Pause") && !isInMainMenu)
+        if (Input.GetButtonDown("Pause"))
         {
-            if (isInPauseMenu)
+            if (isInOptionsMenu || isInKeybindingsMenu)
             {
-                isInPauseMenu = false;
-                pauseMenu.SetActive(false);
-                MouseLockState(true);
+                BackButton();
             }
 
-            else
+            if (!isInMainMenu)
             {
-                controllerSelectedButton = pauseResumeButton;
-                isInPauseMenu = true;
-                pauseMenu.SetActive(true);
-                MouseLockState(false);
+                if (isInPauseMenu)
+                {
+                    isInPauseMenu = false;
+                    pauseMenu.SetActive(false);
+                    MouseLockState(true);
+                }
+
+                else
+                {
+                    controllerSelectedButton = pauseResumeButton;
+                    isInPauseMenu = true;
+                    pauseMenu.SetActive(true);
+                    MouseLockState(false);
+                }
             }
         }
     }
 
     public float volumeValue;
 
-    public void SetLevel(float sliderValue)
+    public void SetVolumeLevel(float sliderValue)
     {
         mixer.SetFloat("MasterVolume", Mathf.Log10(sliderValue) * 20);
 
@@ -98,10 +110,14 @@ public class Menus : MonoBehaviour
         isInMainMenu = false;
 
         MouseLockState(true);
+
+        PlayerPrefs.GetInt("SpawnLocation");
     }
 
     public void OptionsButton()
     {
+        isInOptionsMenu = true;
+
         pauseMenu.SetActive(false);
         mainMenu.SetActive(false);
         optionsMenu.SetActive(true);
@@ -109,8 +125,15 @@ public class Menus : MonoBehaviour
         controllerSelectedButton = backButton;
     }
 
+    public void MainMenu()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
+    }
+
     public void KeybindingsMenu()
     {
+        isInOptionsMenu = false;
         isInKeybindingsMenu = true;
 
         keybindingsMenu.SetActive(true);
@@ -129,23 +152,33 @@ public class Menus : MonoBehaviour
     public void BackButton()
     {
         optionsMenu.SetActive(false);
-        controllerSelectedButton = optionsButton;
 
         if (isInMainMenu)
         {
+            controllerSelectedButton = optionsButton;
             if (isInOptionsMenu)
             {
+                isInOptionsMenu = false;
+
                 mainMenu.SetActive(true);
             }
             if (isInKeybindingsMenu)
             {
+                isInKeybindingsMenu = false;
+                isInOptionsMenu = true;
+
                 optionsMenu.SetActive(true);
+                keybindingsMenu.SetActive(false);
 
                 controllerSelectedButton = optionsBackButton;
             }
         }
         else if (isInPauseMenu)
         {
+            isInPauseMenu = false;
+
+            controllerSelectedButton = pauseOptionsButton;
+
             pauseMenu.SetActive(true);
         }
     }

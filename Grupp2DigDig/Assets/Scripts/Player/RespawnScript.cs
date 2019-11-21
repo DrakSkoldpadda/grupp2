@@ -23,6 +23,8 @@ public class RespawnScript : MonoBehaviour
         if (other.GetComponent<spawnPointScript>() != null)
         {
             placeToSpawn.transform.position = RespawnLocations[other.GetComponent<spawnPointScript>().number].transform.position;
+
+            PlayerPrefs.SetInt("SpawnLocation", other.GetComponent<spawnPointScript>().number);
         }
         if (other.tag == "Enemy" && !alreadyDead)
         {
@@ -37,6 +39,7 @@ public class RespawnScript : MonoBehaviour
             Death();
     }
 #endif
+
     public void Death()
     {
         StartCoroutine(WhatHappensInRespawn());
