@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
-    //Public så att man kan kolla på ett event som sker långt borta
     private Transform lookAtTarget;
-    private Transform target;
+    [SerializeField] private Transform target;
 
     [SerializeField] private float cameraMinDistance = 2f;
     [SerializeField] private float cameraMaxDistance = 10f;
@@ -30,22 +29,32 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void Awake()
     {
-        if (GameObject.FindWithTag("Player") != null)
+        if (target == null)
         {
-            target = GameObject.FindWithTag("Player").transform;
+            if (GameObject.FindWithTag("Player") != null)
+            {
+                target = GameObject.FindWithTag("Player").transform;
+            }
         }
     }
 
     private void Start()
     {
-        lookAtTarget = target;
+        if (lookAtTarget != null)
+        {
+            lookAtTarget = target;
+        }
     }
 
     private void Update()
     {
-        //Tar mus input för flyttar på kameran
+        //Tar mus input för flytta på kameran
         CurrentX += Input.GetAxis("Mouse X") * sensivityX;
         currentY += -Input.GetAxis("Mouse Y") * sensivityY;
+
+        //Tar controller input för att flytta på kameran
+        CurrentX += Input.GetAxis("Joy X") * sensivityX;
+        currentY += Input.GetAxis("Joy Y") * sensivityY;
 
         //Så att man inte kan åka runt spelaren i y led
         currentY = Mathf.Clamp(currentY, YAngleMin, YAngleMax);

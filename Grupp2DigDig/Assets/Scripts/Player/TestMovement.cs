@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class TestMovement : MonoBehaviour
 {
-    [Header("Character Stats")]
+    [Header("Character Properties")]
     [SerializeField] private float walkingSpeed = 6f;
+    [SerializeField] private float straifingSpee = 2;
     [SerializeField] private float sprintingSpeedMultiplaier = 12f;
+    [SerializeField] private float decelerationSpeed;
 
-    [SerializeField] bool isSprinting = false;
-    [SerializeField] bool isJumping;
+    bool isSprinting = false;
+    bool isJumping;
     private float currentSpeed;
+
     [SerializeField] bool isGrounded;
 
-    [Header("")]
-    [SerializeField] private float jumpForce = 7f;
-    [SerializeField] private float jumpCooldown = 0.5f;
-    [SerializeField] float jumpForwardForce;
+    public float velocityForStunned;
+    private bool stunned = false;
+    public float stunnedDuration = 1f;
 
-    [SerializeField] private float normaljumpAditinalSpeed;
+    [Header("")]
+    [SerializeField] private float sprintJumpForce = 4f;
+    [SerializeField] float jumpUpForce = 7f;
+    [SerializeField] float jumpForwardForce;
+    [SerializeField] float sprintJumpMultiplayier = 1.3f;
+    [SerializeField] private float jumpCooldown = 0.5f;
+
 
     private float cooldownBeforeJump;
     private float currentRotationsSpeed;
@@ -29,11 +37,15 @@ public class TestMovement : MonoBehaviour
 
 
     [Header("Inputs")]
+
     [SerializeField] private string verticalAxis = "Vertical"; // Forward and backwards
     [SerializeField] private string horisontalAxis = "Horizontal"; // Left and Right 
 
     [SerializeField] private string jumpButton = "Jump";
     [SerializeField] private string sprintButton = "Sprint";
+
+    [SerializeField] private float xInputValue;
+    [SerializeField] private float zInputValue;
 
 
     [Header("Mechanical Stuff")]
@@ -45,6 +57,10 @@ public class TestMovement : MonoBehaviour
     [Header("")]
     [SerializeField] private float currentRotation;
     [SerializeField] private float destenatedRotation;
+
+    [SerializeField] float currentVelocity;
+
+
 
     [Header("Player Sphare Cast Components")]
     public GameObject currentHitObject;
@@ -74,7 +90,7 @@ public class TestMovement : MonoBehaviour
     private Quaternion lookRotation;
 
     private Vector3 moveDirection;
-    private Vector3 moveDirectionRaw;
+    private Vector3 moveDirectionRawRotate;
 
     private Vector3 maximumValecity;
 
@@ -83,12 +99,12 @@ public class TestMovement : MonoBehaviour
     private Vector3 camForward;
     private Vector3 camRight;
 
-
     enum PlayerState { grounded, falling, jumping }
     PlayerState currentYaxisState;
 
     enum PlayerMovingState { standingStill, walking, running }
-    PlayerMovingState currentMovingState;
+    [Header("States")]
+    [SerializeField] PlayerMovingState currentMovingState;
 
     private void Awake()
     {
@@ -106,8 +122,13 @@ public class TestMovement : MonoBehaviour
     private void Update()
     {
         CheckIsGrounded();
-    }
 
+        xInputValue = Input.GetAxis(horisontalAxis);
+        zInputValue = Input.GetAxis(verticalAxis);
+
+        Move();
+
+    }
 
     private void FixedUpdate()
     {
@@ -120,12 +141,14 @@ public class TestMovement : MonoBehaviour
         camForward = camForward.normalized;
         camRight = camRight.normalized;
 
+
+        currentVelocity = rigBody.velocity.magnitude;
+
         // I seperated the scripts into thier own voids so that it's easyer to look at
-        Move();
+        FixedMove();
         RotateMovement();
         //LeanAnimation(); // Work in progress ;3
     }
-
 
     void CheckIsGrounded()
     {
@@ -134,14 +157,20 @@ public class TestMovement : MonoBehaviour
         direction = transform.TransformDirection(-Vector3.up);
         RaycastHit hit;
 
-        if (Physics.SphereCast(origin, sphareRadius, direction, out hit, maxDistance, layerMask))
+        if(Physics.SphereCast(origin, sphareRadius, direction, out hit, maxDistance, layerMask) && !isGrounded)
+        {
+            isGrounded = true;
+            if(currentVelocity >= velocityForStunned)
+            StartCoroutine(Stunnded());
+        }
+        else if (Physics.SphereCast(origin, sphareRadius, direction, out hit, maxDistance, layerMask))
         {
             currentHitObject = hit.transform.gameObject;
             currentHitDistance = hit.distance;
 
             isGrounded = true;
 
-            Debug.DrawRay(transform.position, transform.TransformDirection(-Vector3.up) * hit.distance, Color.green);
+            Debug.DrawRay(transform.position, direction * hit.distance, Color.green);
         }
         else
         {
@@ -149,7 +178,7 @@ public class TestMovement : MonoBehaviour
             currentHitObject = null;
             isGrounded = false;
 
-            Debug.DrawRay(transform.position, transform.TransformDirection(-Vector3.up) * maxDistance, Color.red);
+            Debug.DrawRay(transform.position, direction * maxDistance, Color.red);
 
         }
     }
@@ -163,111 +192,179 @@ public class TestMovement : MonoBehaviour
 
 
         Gizmos.DrawWireSphere(origin + direction * currentHitDistance, sphareRadius);
-    }
+    } // Draw Is grounded ball to visulize.
 
     void Move()
     {
         cooldownBeforeJump -= Time.deltaTime;
-        float fallVelocity = rigBody.velocity.y;
 
-        // Is Sprinting
-        if (Input.GetButtonDown(sprintButton) && isGrounded)
-        {
-            currentMovingState = PlayerMovingState.running;
-            currentSpeed *= sprintingSpeedMultiplaier;
-        }
-        // Is Not Sprinitng
-        if (Input.GetButtonUp(sprintButton) || !isGrounded)
-        {
-            currentMovingState = PlayerMovingState.walking;
-            currentSpeed = walkingSpeed;
-        }
-        // Is Not Moving at all
-        if(moveDirection.x == 0 && moveDirection.z == 0)
+
+        if (Input.GetButtonDown(sprintButton) && isGrounded) // If Sprint is pressed AND is grounded
+            isSprinting = true;
+        else if (Input.GetButtonUp(sprintButton)) // Else if Sprint is released OR is not grounded
+            isSprinting = false;
+
+
+
+
+        // Is Not Moving at all. Is standing still
+        if (xInputValue == 0 && zInputValue == 0)
         {
             currentMovingState = PlayerMovingState.standingStill;
-            Debug.Log("Is not moving");
         }
+        else // If you are moving!
+        {
+            // If you hold any move direction, has released sprint or is not grounded
+            if (!isSprinting && currentMovingState != PlayerMovingState.walking)
+            {
+                currentMovingState = PlayerMovingState.walking;
+                currentSpeed = walkingSpeed;
+            }
+
+            // If you hold Sprint, is grounded and where not allready sprinting. You Start Sprinting.
+            else if (isSprinting && currentMovingState == PlayerMovingState.walking)
+            {
+                currentMovingState = PlayerMovingState.running;
+                currentSpeed *= sprintingSpeedMultiplaier;
+            }
+        }// If you are moving!
+
 
         if (isGrounded)
         {
             isJumping = false;
         }
 
-        // Checks if you are able to Jump. 
+
+
+    }
+
+    void FixedMove()
+    {
+
+        // Are you grounded AND able to jump? THEN JUMP!
         if (isGrounded && cooldownBeforeJump <= 0)
         {
             if (Input.GetButtonDown(jumpButton))
             {
+
                 isJumping = true;
-                NormalJump();
+                if (currentMovingState == PlayerMovingState.standingStill)
+                {
+
+                    NormalJump();
+                    Debug.Log("Normal jump");
+                }
+                else if (currentMovingState == PlayerMovingState.walking)
+                {
+                    WalkJump();
+                    Debug.Log("Walk jump");
+                }
+                else if (currentMovingState == PlayerMovingState.running)
+                {
+                    LongJump();
+                    Debug.Log("Long jump");
+                }
+
                 cooldownBeforeJump = jumpCooldown;
 
             }
 
+
         }
 
-
-
-        Debug.Log(isJumping);
-
-
-        Debug.Log("Is able to move");
-        //moveDirection = new Vector3(Input.GetAxis("Horizontal") * walkingSpeed, moveDirection.y, Input.GetAxis("Vertical") * walkingSpeed);
-        moveDirection = new Vector3((camFollower.forward.x * Input.GetAxis(verticalAxis) + camFollower.right.x * Input.GetAxis(horisontalAxis))
-            , 0.0f
-            , (camFollower.forward.z * Input.GetAxis(verticalAxis)) + (camFollower.right.z * Input.GetAxis(horisontalAxis)));
-
-
-
-
-
-
-        rigBody.AddForce(moveDirection.x * currentSpeed / Time.deltaTime, 0.0f, moveDirection.z * currentSpeed / Time.deltaTime);
-
-        if (rigBody.velocity.magnitude > currentSpeed)
+        if ((currentMovingState == PlayerMovingState.walking || currentMovingState == PlayerMovingState.running) && !stunned)
         {
-            maximumValecity = new Vector3(moveDirection.x * currentSpeed / Time.deltaTime, 0.0f, moveDirection.z * currentSpeed / Time.deltaTime).normalized * currentSpeed;
+            Debug.Log("Is suposed to move");
+            moveDirection = new Vector3((camFollower.forward.x * zInputValue + camFollower.right.x * xInputValue)
+                , 0.0f
+                , (camFollower.forward.z * zInputValue) + (camFollower.right.z * xInputValue));
 
-            rigBody.velocity = new Vector3(maximumValecity.x, rigBody.velocity.y, maximumValecity.z);
+            //if(!isGrounded)
+            //    rigBody.AddForce(moveDirection.x * straifingSpee / Time.deltaTime, 0.0f, moveDirection.z * straifingSpee / Time.deltaTime);
+
+            if (isGrounded)
+                rigBody.AddForce(moveDirection.x * currentSpeed / Time.deltaTime, 0.0f, moveDirection.z * currentSpeed / Time.deltaTime);
+        }// If you are not standing still. Well then... Um.. move?
+        else if (currentMovingState == PlayerMovingState.standingStill && isGrounded)
+        {
+            rigBody.velocity = rigBody.velocity * decelerationSpeed;
+        } // IF you are grounded and not moving. Decelerate AND STOP THAT MOVING!.
+
+
+        // Limits my moving speed. So that the character dosen't accelerate to the third dimension you know?
+        if (rigBody.velocity.magnitude > currentSpeed && !isJumping)
+        {
+
+            rigBody.velocity = rigBody.velocity.normalized * currentSpeed;
 
         }
+
 
     }
+
+
 
     void NormalJump()
     {
-        rigBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        rigBody.AddForce(Vector3.forward * jumpForwardForce, ForceMode.Impulse);
+        rigBody.AddForce(transform.up * jumpUpForce, ForceMode.Impulse);
     }
 
+    void WalkJump()
+    {
+        rigBody.AddForce(Vector3.up * jumpUpForce, ForceMode.Impulse);
+        rigBody.AddForce(transform.forward * -jumpUpForce/2, ForceMode.Impulse);
+    }
+
+    void LongJump()
+    {        
+        rigBody.AddForce((Vector3.up * sprintJumpForce), ForceMode.Impulse);
+        rigBody.AddForce((transform.forward * sprintJumpForce), ForceMode.Impulse);
+    }
+
+    IEnumerator Stunnded()
+    {
+        stunned = true;
+        yield return new WaitForSeconds(stunnedDuration);
+        stunned = false;
+    }
 
     private void RotateMovement()
     {
         //moveDirectionRaw = new Vector3(Input.GetAxisRaw("Horizontal") * walkingSpeed, moveDirection.y, Input.GetAxisRaw("Vertical") * walkingSpeed);
-        moveDirectionRaw = (camForward * Input.GetAxisRaw(verticalAxis)) + (camRight * Input.GetAxisRaw(horisontalAxis));
+        moveDirectionRawRotate = (camForward * Input.GetAxisRaw(verticalAxis)) + (camRight * Input.GetAxisRaw(horisontalAxis));
+
+        // If the player moves slower then half of the walking speed. He turns faster then normal. 
+        if (rigBody.velocity.magnitude < walkingSpeed / 2)
+        {
+            currentRotationsSpeed = maxRotationSpeed;
+
+        }
+        else
+        {
+            currentRotationsSpeed = minRotationSpeed;
+        }
+
 
 
         if (moveDirection.x < -neededSpeedToTurn || moveDirection.x > neededSpeedToTurn || moveDirection.z < -neededSpeedToTurn || moveDirection.z > neededSpeedToTurn)// So that it dosen't rotate back to z = 0 when not moving
         {
-            if (moveDirectionRaw.x > 0 || moveDirectionRaw.x < 0 || moveDirectionRaw.z > 0 || moveDirectionRaw.z < 0)// Allso so that when I let go of all movement it shouldn't move back
+            if ((moveDirectionRawRotate.x > 0 || moveDirectionRawRotate.x < 0 || moveDirectionRawRotate.z > 0 || moveDirectionRawRotate.z < 0) && isGrounded)// Allso so that when I let go of all movement it shouldn't move back
             {
-                currentRotationsSpeed = minRotationSpeed;
 
                 // This does not use the Character controller to work
-                lookRotation = Quaternion.LookRotation(new Vector3(moveDirectionRaw.x, 0, moveDirectionRaw.z)); // Find out how you shold rotate yourself to look in that direction(ny y direction as well)
+                lookRotation = Quaternion.LookRotation(new Vector3(moveDirectionRawRotate.x, 0, moveDirectionRawRotate.z)); // Find out how you shold rotate yourself to look in that direction(ny y direction as well)
 
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * currentRotationsSpeed); // Smoothly rotate towoards that direction
             }
         }
 
-        else // Only happenes if player is walking slowely. For a faster turning when standing still.
+        else
         {
-            if (moveDirectionRaw.x > 0 || moveDirectionRaw.x < 0 || moveDirectionRaw.z > 0 || moveDirectionRaw.z < 0) // Allso so that when I let go of all movement it shouldn't move back
+            if ((moveDirectionRawRotate.x > 0 || moveDirectionRawRotate.x < 0 || moveDirectionRawRotate.z > 0 || moveDirectionRawRotate.z < 0) && isGrounded) // Allso so that when I let go of all movement it shouldn't move back
             {
-                currentRotationsSpeed = maxRotationSpeed;
 
-                lookRotation = Quaternion.LookRotation(new Vector3(moveDirectionRaw.x, 0, moveDirectionRaw.z)); // Find out how you shold rotate yourself to look in that direction(ny y direction as well)
+                lookRotation = Quaternion.LookRotation(new Vector3(moveDirectionRawRotate.x, 0, moveDirectionRawRotate.z)); // Find out how you shold rotate yourself to look in that direction(ny y direction as well)
 
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * currentRotationsSpeed); // Smoothly rotate towoards that direction
             }
