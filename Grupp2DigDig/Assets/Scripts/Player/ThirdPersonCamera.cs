@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
-    private Transform lookAtTarget;
+    [SerializeField] private Transform lookAtTarget;
     [SerializeField] private Transform target;
 
     [SerializeField] private float cameraMinDistance = 2f;
@@ -103,18 +103,24 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 velocity = Vector3.zero;
+        if (canUseCamera)
+        {
+            Vector3 velocity = Vector3.zero;
 
-        //Gör så att kameran "orbittar" runt spelaren
-        Vector3 dir = new Vector3(0, 0, -currentCamDistance);
-        Quaternion rotation = Quaternion.Euler(currentY, CurrentX, 0);
+            //Gör så att kameran "orbittar" runt spelaren
+            Vector3 dir = new Vector3(0, 0, -currentCamDistance);
+            Quaternion rotation = Quaternion.Euler(currentY, CurrentX, 0);
 
-        transform.position = Vector3.SmoothDamp(transform.position, target.position + rotation * dir, ref velocity, smoothTime);
+            transform.position = Vector3.SmoothDamp(transform.position, target.position + rotation * dir, ref velocity, smoothTime);
+        }
     }
 
     private void LateUpdate()
     {
-        //Vad kameran ska kolla på
-        transform.LookAt(lookAtTarget.position);
+        if (canUseCamera)
+        {
+            //Vad kameran ska kolla på
+            transform.LookAt(lookAtTarget.position);
+        }
     }
 }
