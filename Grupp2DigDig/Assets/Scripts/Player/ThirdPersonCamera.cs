@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
-    private Transform lookAtTarget;
+    [SerializeField] private Transform lookAtTarget;
     [SerializeField] private Transform target;
 
     [SerializeField] private float cameraMinDistance = 2f;
