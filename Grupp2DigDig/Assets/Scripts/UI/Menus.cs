@@ -70,8 +70,7 @@ public class Menus : MonoBehaviour
             {
                 BackButton();
             }
-
-            if (!isInMainMenu)
+            else if (!isInMainMenu)
             {
                 if (isInPauseMenu)
                 {
@@ -111,7 +110,12 @@ public class Menus : MonoBehaviour
 
         MouseLockState(true);
 
-        PlayerPrefs.GetInt("SpawnLocation");
+        int spawnLocation = PlayerPrefs.GetInt("SpawnLocation");
+
+        if (spawnLocation != 1)
+        {
+            startPoint.Death();
+        }
     }
 
     public void OptionsButton()
@@ -161,8 +165,10 @@ public class Menus : MonoBehaviour
                 isInOptionsMenu = false;
 
                 mainMenu.SetActive(true);
+
+                controllerSelectedButton = optionsButton;
             }
-            if (isInKeybindingsMenu)
+            else if (isInKeybindingsMenu)
             {
                 isInKeybindingsMenu = false;
                 isInOptionsMenu = true;
@@ -175,11 +181,25 @@ public class Menus : MonoBehaviour
         }
         else if (isInPauseMenu)
         {
-            isInPauseMenu = false;
 
-            controllerSelectedButton = pauseOptionsButton;
+            if (isInOptionsMenu)
+            {
+                isInOptionsMenu = false;
 
-            pauseMenu.SetActive(true);
+                controllerSelectedButton = pauseOptionsButton;
+
+                pauseMenu.SetActive(true);
+            }
+            else if (isInKeybindingsMenu)
+            {
+                isInKeybindingsMenu = false;
+                isInOptionsMenu = true;
+
+                optionsMenu.SetActive(true);
+                keybindingsMenu.SetActive(false);
+
+                controllerSelectedButton = optionsBackButton;
+            }
         }
     }
 

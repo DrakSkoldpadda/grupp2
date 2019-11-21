@@ -15,7 +15,7 @@ public class RespawnScript : MonoBehaviour
     private void Start()
     {
         playerAnimator = GetComponent<Animator>();
-        placeToSpawn.transform.position = RespawnLocations[0].transform.position;
+        placeToSpawn.transform.position = RespawnLocations[PlayerPrefs.GetInt("SpawnLocation")].transform.position;
     }
 
     private void OnTriggerEnter(Collider other)

@@ -48,9 +48,13 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void Update()
     {
-        //Tar mus input för flyttar på kameran
+        //Tar mus input för flytta på kameran
         CurrentX += Input.GetAxis("Mouse X") * sensivityX;
         currentY += -Input.GetAxis("Mouse Y") * sensivityY;
+
+        //Tar controller input för att flytta på kameran
+        CurrentX += Input.GetAxis("Joy X") * sensivityX;
+        currentY += Input.GetAxis("Joy Y") * sensivityY;
 
         //Så att man inte kan åka runt spelaren i y led
         currentY = Mathf.Clamp(currentY, YAngleMin, YAngleMax);
