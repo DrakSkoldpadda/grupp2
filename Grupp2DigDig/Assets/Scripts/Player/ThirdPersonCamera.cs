@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
-    //Public så att man kan kolla på ett event som sker långt borta
-    private Transform lookAtTarget;
-    private Transform target;
+    [SerializeField] private Transform lookAtTarget;
+    [SerializeField] private Transform target;
 
     [SerializeField] private float cameraMinDistance = 2f;
     [SerializeField] private float cameraMaxDistance = 10f;
@@ -30,22 +29,32 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void Awake()
     {
-        if (GameObject.FindWithTag("Player") != null)
+        if (target == null)
         {
-            target = GameObject.FindWithTag("Player").transform;
+            if (GameObject.FindWithTag("Player") != null)
+            {
+                target = GameObject.FindWithTag("Player").transform;
+            }
         }
     }
 
     private void Start()
     {
-        lookAtTarget = target;
+        if (lookAtTarget != null)
+        {
+            lookAtTarget = target;
+        }
     }
 
     private void Update()
     {
-        //Tar mus input för flyttar på kameran
+        //Tar mus input för flytta på kameran
         CurrentX += Input.GetAxis("Mouse X") * sensivityX;
         currentY += -Input.GetAxis("Mouse Y") * sensivityY;
+
+        //Tar controller input för att flytta på kameran
+        CurrentX += Input.GetAxis("Joy X") * sensivityX;
+        currentY += Input.GetAxis("Joy Y") * sensivityY;
 
         //Så att man inte kan åka runt spelaren i y led
         currentY = Mathf.Clamp(currentY, YAngleMin, YAngleMax);
@@ -94,18 +103,24 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 velocity = Vector3.zero;
+        if (canUseCamera)
+        {
+            Vector3 velocity = Vector3.zero;
 
-        //Gör så att kameran "orbittar" runt spelaren
-        Vector3 dir = new Vector3(0, 0, -currentCamDistance);
-        Quaternion rotation = Quaternion.Euler(currentY, CurrentX, 0);
+            //Gör så att kameran "orbittar" runt spelaren
+            Vector3 dir = new Vector3(0, 0, -currentCamDistance);
+            Quaternion rotation = Quaternion.Euler(currentY, CurrentX, 0);
 
-        transform.position = Vector3.SmoothDamp(transform.position, target.position + rotation * dir, ref velocity, smoothTime);
+            transform.position = Vector3.SmoothDamp(transform.position, target.position + rotation * dir, ref velocity, smoothTime);
+        }
     }
 
     private void LateUpdate()
     {
-        //Vad kameran ska kolla på
-        transform.LookAt(lookAtTarget.position);
+        if (canUseCamera)
+        {
+            //Vad kameran ska kolla på
+            transform.LookAt(lookAtTarget.position);
+        }
     }
 }
