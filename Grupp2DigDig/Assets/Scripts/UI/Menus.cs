@@ -14,6 +14,7 @@ public class Menus : MonoBehaviour
     [SerializeField] private GameObject optionsMenu;
     [SerializeField] private GameObject keybindingsMenu;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject game;
 
     [Header("Buttons")]
     [SerializeField] private Button controllerSelectedButton;
@@ -58,6 +59,7 @@ public class Menus : MonoBehaviour
         optionsMenu.SetActive(false);
         pauseMenu.SetActive(false);
         keybindingsMenu.SetActive(false);
+        game.SetActive(false);
 
         cameraScript.canUseCamera = false;
     }
@@ -104,6 +106,7 @@ public class Menus : MonoBehaviour
                     controllerSelectedButton = pauseResumeButton;
                     isInPauseMenu = true;
                     pauseMenu.SetActive(true);
+                    game.SetActive(false);
                     MouseLockState(false);
                     cameraScript.canUseCamera = false;
                 }
@@ -137,7 +140,7 @@ public class Menus : MonoBehaviour
         cameraScript.canUseCamera = true;
 
         mainMenu.SetActive(false);
-        optionsMenu.SetActive(false);
+        game.SetActive(true);
         isInMainMenu = false;
 
         MouseLockState(true);
@@ -188,6 +191,7 @@ public class Menus : MonoBehaviour
     {
         isInPauseMenu = false;
         pauseMenu.SetActive(false);
+        game.SetActive(true);
         MouseLockState(true);
         controllerSelectedButton = pauseResumeButton;
 

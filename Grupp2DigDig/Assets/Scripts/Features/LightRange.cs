@@ -5,16 +5,15 @@ using UnityEngine;
 public class LightRange : MonoBehaviour
 {
     private Transform player;
-    [SerializeField] private InTheDarkMeater outside;
+    private InTheDarkMeater outside;
     public float lightRange = 4f;
 
     // Start is called before the first frame update
     void Awake()
     {
-        if (player == null)
-        {
-            player = GameObject.FindWithTag("Player").transform;
-        }
+        player = GameObject.FindWithTag("Player").transform;
+
+        outside = GameObject.FindWithTag("UI").GetComponent<InTheDarkMeater>();
     }
 
     // Update is called once per frame
