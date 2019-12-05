@@ -26,8 +26,6 @@ public class Pathfiding : MonoBehaviour
         {
             target = GameObject.FindWithTag("Player").transform;
         }
-
-
     }
 
     private void Start()
@@ -38,8 +36,6 @@ public class Pathfiding : MonoBehaviour
 
     private void Update()
     {
-
-
         if (Vector3.Distance(target.position, transform.position) < aggroRange)
         {
 
@@ -57,7 +53,9 @@ public class Pathfiding : MonoBehaviour
             animator.SetFloat("speed", 1f);
         }
         else
+        {
             animator.SetFloat("speed", 0f);
+        }
     }
 
     void OnDrawGizmos()

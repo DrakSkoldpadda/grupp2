@@ -12,8 +12,8 @@ public class ThirdPersonCamera : MonoBehaviour
     private float wantedCamDistance = 5f;
     private float currentCamDistance;
 
-    [SerializeField] private float sensivityX = 1f;
-    [SerializeField] private float sensivityY = 0.5f;
+    public float sensivityX = 1f;
+    public float sensivityY = 0.5f;
 
     [SerializeField] private float smoothTime = 0.02f;
 
