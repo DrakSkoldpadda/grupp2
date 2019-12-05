@@ -25,10 +25,12 @@ public class Menus : MonoBehaviour
     [SerializeField] private Button keybindingsBackButton;
 
     [Header("Things")]
+    [SerializeField] private EventSystem eventSystem;
     [SerializeField] private Slider audioSlider;
+    [SerializeField] private Slider sensitivitySlider;
     [SerializeField] private AudioMixer mixer;
     [SerializeField] private RespawnScript startPoint;
-    [SerializeField] private ThirdPersonCamera camera;
+    [SerializeField] private ThirdPersonCamera cameraScript;
 
     [Header("Animator")]
     [SerializeField] private Animator animator;
@@ -38,12 +40,16 @@ public class Menus : MonoBehaviour
     private bool isInKeybindingsMenu = false;
     private bool isInPauseMenu = false;
 
+    private float volumeValue = 1f;
+    private float sensitivityValue = 1f;
+
     private bool firstTime = false;
 
     private void Start()
     {
         mixer.SetFloat("MasterVolume", volumeValue);
-        audioSlider.value = volumeValue;
+        volumeValue = audioSlider.value;
+        sensitivityValue = sensitivitySlider.value;
 
         firstTime = true;
 
@@ -53,7 +59,7 @@ public class Menus : MonoBehaviour
         pauseMenu.SetActive(false);
         keybindingsMenu.SetActive(false);
 
-        camera.canUseCamera = false;
+        cameraScript.canUseCamera = false;
     }
 
     private void Update()
@@ -66,6 +72,15 @@ public class Menus : MonoBehaviour
         }
 
         Pause();
+
+    }
+
+    private void SliderValue(Slider slider)
+    {
+        if (eventSystem.currentSelectedGameObject == slider.gameObject)
+        {
+            slider.value += Input.GetAxis("Horizontal");
+        }
     }
 
     private void Pause()
@@ -74,18 +89,14 @@ public class Menus : MonoBehaviour
         {
             if (isInOptionsMenu || isInKeybindingsMenu)
             {
-                camera.canUseCamera = false;
+                cameraScript.canUseCamera = false;
                 BackButton();
             }
             else if (!isInMainMenu)
             {
                 if (isInPauseMenu)
                 {
-                    isInPauseMenu = false;
-                    pauseMenu.SetActive(false);
-                    MouseLockState(true);
-
-                    camera.canUseCamera = true;
+                    Resume();
                 }
 
                 else
@@ -94,27 +105,36 @@ public class Menus : MonoBehaviour
                     isInPauseMenu = true;
                     pauseMenu.SetActive(true);
                     MouseLockState(false);
-                    camera.canUseCamera = false;
+                    cameraScript.canUseCamera = false;
                 }
+                firstTime = true;
             }
         }
     }
 
-    public float volumeValue;
-
     public void SetVolumeLevel(float sliderValue)
     {
-        mixer.SetFloat("MasterVolume", Mathf.Log10(sliderValue) * 20);
+        sliderValue = volumeValue;
 
-        if (sliderValue == 0f)
+        mixer.SetFloat("MasterVolume", Mathf.Log10(volumeValue) * 20);
+
+        if (volumeValue == 0f)
         {
             mixer.SetFloat("MasterVolume", -80f);
         }
     }
 
+    public void SetSensitivity(float sliderValue)
+    {
+        sliderValue = sensitivityValue;
+
+        cameraScript.sensivityX = sensitivityValue;
+        cameraScript.sensivityY = sensitivityValue / 2f;
+    }
+
     public void PlayButton()
     {
-        camera.canUseCamera = true;
+        cameraScript.canUseCamera = true;
 
         mainMenu.SetActive(false);
         optionsMenu.SetActive(false);
@@ -141,6 +161,7 @@ public class Menus : MonoBehaviour
         optionsMenu.SetActive(true);
 
         controllerSelectedButton = backButton;
+        firstTime = true;
     }
 
     public void MainMenu()
@@ -160,13 +181,17 @@ public class Menus : MonoBehaviour
         optionsMenu.SetActive(false);
 
         controllerSelectedButton = keybindingsBackButton;
+        firstTime = true;
     }
 
     public void Resume()
     {
-        pauseMenu.SetActive(false);
-
         isInPauseMenu = false;
+        pauseMenu.SetActive(false);
+        MouseLockState(true);
+        controllerSelectedButton = pauseResumeButton;
+
+        cameraScript.canUseCamera = true;
     }
 
     public void BackButton()
@@ -221,6 +246,7 @@ public class Menus : MonoBehaviour
                 controllerSelectedButton = optionsBackButton;
             }
         }
+        firstTime = true;
     }
 
     public void QuitButton()
@@ -234,12 +260,16 @@ public class Menus : MonoBehaviour
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+
+            //Time.timeScale = 0f;
         }
 
         else
         {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
+
+            //Time.timeScale = 1f;
         }
     }
 }
