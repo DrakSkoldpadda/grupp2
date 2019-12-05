@@ -4,17 +4,46 @@ using UnityEngine;
 
 public class PlayerAnimationScript : MonoBehaviour
 {
+
     private Animator playerAnimator;
-    private Rigidbody playerBody;
+    private Rigidbody rigBody;
+    private TestMovement playMov;
+    private float moveVelocity;
 
     private void Start()
     {
-        playerAnimator = GetComponent<Animator>();
-        playerBody = GetComponent<Rigidbody>();
+        playerAnimator = GetComponentInChildren<Animator>();
+        rigBody = GetComponent<Rigidbody>();
+        playMov = GetComponent<TestMovement>();
     }
 
-    void Update()
+    private void Update()
     {
-        playerAnimator.SetFloat("conditionToRun", playerBody.velocity.z);
+        moveVelocity = rigBody.velocity.magnitude;
+
+        if (!playMov.isGrounded)
+            playerAnimator.SetBool("Falling", true);
+        else
+            playerAnimator.SetBool("Falling", false);
+
+    }
+
+    private void FixedUpdate()
+    {
+        if(playMov.isGrounded)
+        playerAnimator.SetFloat("Walk", moveVelocity);
+
+
+
+        if(Input.GetButtonDown(playMov.jumpButton))
+            playerAnimator.SetBool("Jumping", true);
+
+
+        if (rigBody.velocity.y > 0.05f)
+            playerAnimator.SetBool("Jumping", true);
+
+        else
+            playerAnimator.SetBool("Jumping", false);
+
     }
 }
