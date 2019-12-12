@@ -31,10 +31,19 @@ public class ThirdPersonCamera : MonoBehaviour
     {
         if (target == null)
         {
-            if (GameObject.FindWithTag("Player") != null)
-            {
-                target = GameObject.FindWithTag("Player").transform;
-            }
+            FindPlayer(target);
+        }
+        if (lookAtTarget == null)
+        {
+            FindPlayer(lookAtTarget);
+        }
+    }
+
+    private void FindPlayer(Transform Target)
+    {
+        if (GameObject.FindWithTag("Player") != null)
+        {
+            Target = GameObject.FindWithTag("Player").transform;
         }
     }
 
@@ -68,7 +77,7 @@ public class ThirdPersonCamera : MonoBehaviour
     private void CamCollisionDistance()
     {
         RaycastHit hit;
-        float wallBuffer = 0.01f;
+        float wallBuffer = 0.05f;
 
         if (Physics.Raycast(target.position, -transform.TransformDirection(Vector3.forward), out hit, wantedCamDistance, LayerMask.GetMask("Terrain")))
         {
