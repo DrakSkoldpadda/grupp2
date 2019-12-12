@@ -16,6 +16,8 @@ public class Pathfiding : MonoBehaviour
 
     [SerializeField] private float moveSpeed = 10f;
 
+    public bool scared = false;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -38,16 +40,20 @@ public class Pathfiding : MonoBehaviour
     {
         if (Vector3.Distance(target.position, transform.position) < aggroRange)
         {
+            if (!scared)
+                //-----------------------------springa mot gubben
+                agent.SetDestination(target.position);
 
-            //-----------------------------springa mot gubben
-            agent.SetDestination(target.position);
+            else
+            {
+                //-----------------------------springa ifrån gubben
+                agent.Move(new Vector3(
+                    Mathf.Clamp(gameObject.transform.position.x - target.transform.position.x, -1, 1),
+                    Mathf.Clamp(gameObject.transform.position.y - target.transform.position.y, -1, 1),
+                    Mathf.Clamp(gameObject.transform.position.z - target.transform.position.z, -1, 1)
+                    ) * 0.05f);
+            }
 
-            //-----------------------------springa ifrån gubben
-            //agent.Move(new Vector3(
-            //    Mathf.Clamp(gameObject.transform.position.x - target.transform.position.x, -1,1),
-            //    Mathf.Clamp(gameObject.transform.position.y - target.transform.position.y, -1, 1),
-            //    Mathf.Clamp(gameObject.transform.position.z - target.transform.position.z, -1, 1)
-            //    ) * 0.05f);
 
 
             animator.SetFloat("speed", 1f);
