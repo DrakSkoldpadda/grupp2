@@ -12,8 +12,8 @@ public class ThirdPersonCamera : MonoBehaviour
     private float wantedCamDistance = 5f;
     private float currentCamDistance;
 
-    [SerializeField] private float sensivityX = 1f;
-    [SerializeField] private float sensivityY = 0.5f;
+    public float sensivityX = 1f;
+    public float sensivityY = 0.5f;
 
     [SerializeField] private float smoothTime = 0.02f;
 
@@ -27,48 +27,28 @@ public class ThirdPersonCamera : MonoBehaviour
     [HideInInspector] public bool canUseCamera;
     [HideInInspector] public bool isInMenu;
 
-    private void Awake()
+    private void Start()
     {
         if (target == null)
         {
-            if (GameObject.FindWithTag("Player") != null)
-            {
-                target = GameObject.FindWithTag("Player").transform;
-            }
+            target = GameObject.FindWithTag("Player").transform;
         }
-    }
-
-    private void Start()
-    {
-        if (lookAtTarget != null)
+        if (lookAtTarget == null)
         {
-            lookAtTarget = target;
+            lookAtTarget = GameObject.FindWithTag("Player").transform;
         }
     }
 
     private void Update()
     {
-        //Tar mus input för flytta på kameran
-        CurrentX += Input.GetAxis("Mouse X") * sensivityX;
-        currentY += -Input.GetAxis("Mouse Y") * sensivityY;
-
-        //Tar controller input för att flytta på kameran
-        CurrentX += Input.GetAxis("Joy X") * sensivityX;
-        currentY += Input.GetAxis("Joy Y") * sensivityY;
-
-        //Så att man inte kan åka runt spelaren i y led
-        currentY = Mathf.Clamp(currentY, YAngleMin, YAngleMax);
-
-        WantedCamDistance();
-
-        CamCollisionDistance();
+        
     }
 
     //Så att cameran slår i teräng så att cameran inte åker utanför kartan
     private void CamCollisionDistance()
     {
         RaycastHit hit;
-        float wallBuffer = 0.01f;
+        float wallBuffer = 0.05f;
 
         if (Physics.Raycast(target.position, -transform.TransformDirection(Vector3.forward), out hit, wantedCamDistance, LayerMask.GetMask("Terrain")))
         {
@@ -103,6 +83,11 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+    }
+
+    private void LateUpdate()
+    {
         if (canUseCamera)
         {
             Vector3 velocity = Vector3.zero;
@@ -113,14 +98,28 @@ public class ThirdPersonCamera : MonoBehaviour
 
             transform.position = Vector3.SmoothDamp(transform.position, target.position + rotation * dir, ref velocity, smoothTime);
         }
-    }
 
-    private void LateUpdate()
-    {
+        //Tar mus input för flytta på kameran
+        CurrentX += Input.GetAxis("Mouse X") * sensivityX;
+        currentY += -Input.GetAxis("Mouse Y") * sensivityY;
+
+        //Tar controller input för att flytta på kameran
+        CurrentX += Input.GetAxis("Joy X") * sensivityX;
+        currentY += Input.GetAxis("Joy Y") * sensivityY;
+
+        //Så att man inte kan åka runt spelaren i y led
+        currentY = Mathf.Clamp(currentY, YAngleMin, YAngleMax);
+
+        WantedCamDistance();
+
+        CamCollisionDistance();
+
         if (canUseCamera)
         {
             //Vad kameran ska kolla på
             transform.LookAt(lookAtTarget.position);
         }
+
+
     }
 }

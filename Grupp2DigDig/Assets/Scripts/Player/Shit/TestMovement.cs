@@ -6,15 +6,18 @@ public class TestMovement : MonoBehaviour
 {
     [Header("Character Properties")]
     [SerializeField] private float walkingSpeed = 6f;
-    [SerializeField] private float straifingSpee = 2;
-    [SerializeField] private float sprintingSpeedMultiplaier = 12f;
+    [SerializeField] private float straifingSpeedMultiply = 2;
+    private Vector3 currentStrafingSpeed;
+    private Vector3 maxStrafingSpeed;
+
+    [SerializeField] private float sprintingSpeedMultiplaier = 1.2f;
     [SerializeField] private float decelerationSpeed;
 
     bool isSprinting = false;
     bool isJumping;
     private float currentSpeed;
 
-    [SerializeField] bool isGrounded;
+    public bool isGrounded;
 
     public float velocityForStunned;
     private bool stunned = false;
@@ -41,7 +44,7 @@ public class TestMovement : MonoBehaviour
     [SerializeField] private string verticalAxis = "Vertical"; // Forward and backwards
     [SerializeField] private string horisontalAxis = "Horizontal"; // Left and Right 
 
-    [SerializeField] private string jumpButton = "Jump";
+    [SerializeField] public string jumpButton = "Jump";
     [SerializeField] private string sprintButton = "Sprint";
 
     [SerializeField] private float xInputValue;
@@ -77,8 +80,7 @@ public class TestMovement : MonoBehaviour
 
 
     [Header("LinkableObjects")]
-    [SerializeField] private Animator animMove;
-    [SerializeField] private Animator animLean;
+
 
     [SerializeField] CapsuleCollider playerCol;
     [SerializeField] BoxCollider feetCol;
@@ -89,7 +91,7 @@ public class TestMovement : MonoBehaviour
 
     private Quaternion lookRotation;
 
-    private Vector3 moveDirection;
+    public Vector3 moveDirection;
     private Vector3 moveDirectionRawRotate;
 
     private Vector3 maximumValecity;
@@ -99,10 +101,7 @@ public class TestMovement : MonoBehaviour
     private Vector3 camForward;
     private Vector3 camRight;
 
-    enum PlayerState { grounded, falling, jumping }
-    PlayerState currentYaxisState;
-
-    enum PlayerMovingState { standingStill, walking, running }
+    enum PlayerMovingState { standingStill, walking, running, unGrounded }
     [Header("States")]
     [SerializeField] PlayerMovingState currentMovingState;
 
@@ -117,6 +116,7 @@ public class TestMovement : MonoBehaviour
         currentSpeed = walkingSpeed;
         rigBody = GetComponent<Rigidbody>();
         isGrounded = false;
+
     }
 
     private void Update()
@@ -144,8 +144,15 @@ public class TestMovement : MonoBehaviour
 
         currentVelocity = rigBody.velocity.magnitude;
 
-        // I seperated the scripts into thier own voids so that it's easyer to look at
-        FixedMove();
+        // I seperated the scripts into thier own voids so that it's easier to look at
+        if (currentMovingState == PlayerMovingState.unGrounded)
+            FixedAirMove();
+        else
+            FixedMove();
+
+
+
+
         RotateMovement();
         //LeanAnimation(); // Work in progress ;3
     }
@@ -157,11 +164,11 @@ public class TestMovement : MonoBehaviour
         direction = transform.TransformDirection(-Vector3.up);
         RaycastHit hit;
 
-        if(Physics.SphereCast(origin, sphareRadius, direction, out hit, maxDistance, layerMask) && !isGrounded)
+        if (Physics.SphereCast(origin, sphareRadius, direction, out hit, maxDistance, layerMask) && !isGrounded)
         {
             isGrounded = true;
-            if(currentVelocity >= velocityForStunned)
-            StartCoroutine(Stunnded());
+            if (currentVelocity >= velocityForStunned)
+                StartCoroutine(Stunnded());
         }
         else if (Physics.SphereCast(origin, sphareRadius, direction, out hit, maxDistance, layerMask))
         {
@@ -206,41 +213,37 @@ public class TestMovement : MonoBehaviour
 
 
 
-
-        // Is Not Moving at all. Is standing still
-        if (xInputValue == 0 && zInputValue == 0)
+        if (!isGrounded)
         {
-            currentMovingState = PlayerMovingState.standingStill;
+
+            // Is Not Moving at all. Is standing still
+            if (xInputValue == 0 && zInputValue == 0)
+            {
+                currentMovingState = PlayerMovingState.standingStill;
+            }
+            else // If you are moving!
+            {
+                // If you hold any move direction, has released sprint or is not grounded
+                if (!isSprinting && currentMovingState != PlayerMovingState.walking)
+                {
+                    currentMovingState = PlayerMovingState.walking;
+                    currentSpeed = walkingSpeed;
+                }
+
+                // If you hold Sprint, is grounded and where not allready sprinting. You Start Sprinting.
+                else if (isSprinting && currentMovingState == PlayerMovingState.walking)
+                {
+                    currentMovingState = PlayerMovingState.running;
+                    currentSpeed *= sprintingSpeedMultiplaier;
+                }
+            }// If you are moving!
         }
-        else // If you are moving!
+        else
         {
-            // If you hold any move direction, has released sprint or is not grounded
-            if (!isSprinting && currentMovingState != PlayerMovingState.walking)
-            {
-                currentMovingState = PlayerMovingState.walking;
-                currentSpeed = walkingSpeed;
-            }
 
-            // If you hold Sprint, is grounded and where not allready sprinting. You Start Sprinting.
-            else if (isSprinting && currentMovingState == PlayerMovingState.walking)
-            {
-                currentMovingState = PlayerMovingState.running;
-                currentSpeed *= sprintingSpeedMultiplaier;
-            }
-        }// If you are moving!
-
-
-        if (isGrounded)
-        {
             isJumping = false;
         }
 
-
-
-    }
-
-    void FixedMove()
-    {
 
         // Are you grounded AND able to jump? THEN JUMP!
         if (isGrounded && cooldownBeforeJump <= 0)
@@ -270,21 +273,47 @@ public class TestMovement : MonoBehaviour
 
             }
 
-
         }
+
+
+    }
+
+    void FixedAirMove()
+    {
+
+        moveDirection = new Vector3((camFollower.forward.x * zInputValue + camFollower.right.x * xInputValue)
+            , 0.0f
+            , (camFollower.forward.z * zInputValue) + (camFollower.right.z * xInputValue));
+
+        maxStrafingSpeed = new Vector3(moveDirection.x * straifingSpeedMultiply, rigBody.velocity.y, moveDirection.z * straifingSpeedMultiply);
+
+        rigBody.velocity = new Vector3(maxStrafingSpeed.x * Time.deltaTime, maxStrafingSpeed.x, maxStrafingSpeed.y * Time.deltaTime);
+
+        if(maxStrafingSpeed.magnitude > straifingSpeedMultiply)
+        {
+            maxStrafingSpeed = rigBody.velocity.normalized * straifingSpeedMultiply;
+        }
+
+
+
+    }
+
+    void FixedMove()
+    {
+
+
 
         if ((currentMovingState == PlayerMovingState.walking || currentMovingState == PlayerMovingState.running) && !stunned)
         {
-            Debug.Log("Is suposed to move");
-            moveDirection = new Vector3((camFollower.forward.x * zInputValue + camFollower.right.x * xInputValue)
-                , 0.0f
-                , (camFollower.forward.z * zInputValue) + (camFollower.right.z * xInputValue));
 
-            //if(!isGrounded)
-            //    rigBody.AddForce(moveDirection.x * straifingSpee / Time.deltaTime, 0.0f, moveDirection.z * straifingSpee / Time.deltaTime);
+            moveDirection = new Vector3((camFollower.forward.x * zInputValue + camFollower.right.x * xInputValue), 0.0f, (camFollower.forward.z * zInputValue) + (camFollower.right.z * xInputValue));
 
-            if (isGrounded)
-                rigBody.AddForce(moveDirection.x * currentSpeed / Time.deltaTime, 0.0f, moveDirection.z * currentSpeed / Time.deltaTime);
+            rigBody.velocity = new Vector3(moveDirection.x * currentSpeed / Time.deltaTime, rigBody.velocity.y, moveDirection.z * currentSpeed / Time.deltaTime);
+
+
+
+
+
         }// If you are not standing still. Well then... Um.. move?
         else if (currentMovingState == PlayerMovingState.standingStill && isGrounded)
         {
@@ -313,11 +342,11 @@ public class TestMovement : MonoBehaviour
     void WalkJump()
     {
         rigBody.AddForce(Vector3.up * jumpUpForce, ForceMode.Impulse);
-        rigBody.AddForce(transform.forward * -jumpUpForce/2, ForceMode.Impulse);
+        rigBody.AddForce(transform.forward * -jumpUpForce / 2, ForceMode.Impulse);
     }
 
     void LongJump()
-    {        
+    {
         rigBody.AddForce((Vector3.up * sprintJumpForce), ForceMode.Impulse);
         rigBody.AddForce((transform.forward * sprintJumpForce), ForceMode.Impulse);
     }
