@@ -103,7 +103,7 @@ public class Movement : MonoBehaviour
             currentSpeed *= sprintingSpeedMultiplaier;
         }
 
-        if (Input.GetButtonUp(sprintButton) || isJumping == true)
+        if (Input.GetButtonUp(sprintButton))
         {
             currentSpeed = walkingSpeed;
         }

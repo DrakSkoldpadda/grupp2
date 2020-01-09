@@ -27,50 +27,21 @@ public class ThirdPersonCamera : MonoBehaviour
     [HideInInspector] public bool canUseCamera;
     [HideInInspector] public bool isInMenu;
 
-    private void Awake()
+    private void Start()
     {
         if (target == null)
         {
-            FindPlayer(target);
+            target = GameObject.FindWithTag("Player").transform;
         }
         if (lookAtTarget == null)
         {
-            FindPlayer(lookAtTarget);
-        }
-    }
-
-    private void FindPlayer(Transform Target)
-    {
-        if (GameObject.FindWithTag("Player") != null)
-        {
-            Target = GameObject.FindWithTag("Player").transform;
-        }
-    }
-
-    private void Start()
-    {
-        if (lookAtTarget != null)
-        {
-            lookAtTarget = target;
+            lookAtTarget = GameObject.FindWithTag("Player").transform;
         }
     }
 
     private void Update()
     {
-        //Tar mus input för flytta på kameran
-        CurrentX += Input.GetAxis("Mouse X") * sensivityX;
-        currentY += -Input.GetAxis("Mouse Y") * sensivityY;
-
-        //Tar controller input för att flytta på kameran
-        CurrentX += Input.GetAxis("Joy X") * sensivityX;
-        currentY += Input.GetAxis("Joy Y") * sensivityY;
-
-        //Så att man inte kan åka runt spelaren i y led
-        currentY = Mathf.Clamp(currentY, YAngleMin, YAngleMax);
-
-        WantedCamDistance();
-
-        CamCollisionDistance();
+        
     }
 
     //Så att cameran slår i teräng så att cameran inte åker utanför kartan
@@ -112,6 +83,11 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+    }
+
+    private void LateUpdate()
+    {
         if (canUseCamera)
         {
             Vector3 velocity = Vector3.zero;
@@ -122,14 +98,28 @@ public class ThirdPersonCamera : MonoBehaviour
 
             transform.position = Vector3.SmoothDamp(transform.position, target.position + rotation * dir, ref velocity, smoothTime);
         }
-    }
 
-    private void LateUpdate()
-    {
+        //Tar mus input för flytta på kameran
+        CurrentX += Input.GetAxis("Mouse X") * sensivityX;
+        currentY += -Input.GetAxis("Mouse Y") * sensivityY;
+
+        //Tar controller input för att flytta på kameran
+        CurrentX += Input.GetAxis("Joy X") * sensivityX;
+        currentY += Input.GetAxis("Joy Y") * sensivityY;
+
+        //Så att man inte kan åka runt spelaren i y led
+        currentY = Mathf.Clamp(currentY, YAngleMin, YAngleMax);
+
+        WantedCamDistance();
+
+        CamCollisionDistance();
+
         if (canUseCamera)
         {
             //Vad kameran ska kolla på
             transform.LookAt(lookAtTarget.position);
         }
+
+
     }
 }
