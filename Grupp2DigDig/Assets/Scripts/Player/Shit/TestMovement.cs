@@ -144,7 +144,7 @@ public class TestMovement : MonoBehaviour
 
         currentVelocity = rigBody.velocity.magnitude;
 
-        // I seperated the scripts into thier own voids so that it's easyer to look at
+        // I seperated the scripts into thier own voids so that it's easier to look at
         if (currentMovingState == PlayerMovingState.unGrounded)
             FixedAirMove();
         else
