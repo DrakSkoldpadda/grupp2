@@ -40,7 +40,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1993861264845593390}
   - component: {fileID: 1993861264845593379}
-  - component: {fileID: 1993861264845593391}
   - component: {fileID: 1993861264845593376}
   - component: {fileID: 1993861264845593378}
   - component: {fileID: 4991971298938792053}
@@ -83,18 +82,6 @@ MonoBehaviour:
   - {fileID: 0}
   placeToSpawn: {fileID: 0}
   amountOfSpawnPoints: 1
---- !u!114 &1993861264845593391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1993861264845593381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d194747c87976894ea55fad02abb9f3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!143 &1993861264845593376
 CharacterController:
   m_ObjectHideFlags: 0
