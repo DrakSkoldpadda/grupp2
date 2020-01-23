@@ -20,14 +20,12 @@ public class Holding : MonoBehaviour
             droppedLamp = Instantiate(lampPrefab, new Vector3(dropLocation.position.x, dropLocation.position.y, dropLocation.position.z), Quaternion.identity);
             lampObject.SetActive(false);
             dropped = true;
-            print("BORTA!");
         }
-        else if (Input.GetKeyDown(KeyCode.F) && dropped && Vector3.Distance(droppedLamp.transform.position, transform.position) < 1f)
+        else if (Input.GetKeyDown(KeyCode.F) && dropped && Vector3.Distance(droppedLamp.transform.position, transform.position) < 1.5f)
         {
             Destroy(droppedLamp);
             lampObject.SetActive(true);
             dropped = false;
-            print("Hej igen!");
         }
     }
 }

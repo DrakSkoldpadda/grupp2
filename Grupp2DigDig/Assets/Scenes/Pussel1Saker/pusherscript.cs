@@ -8,24 +8,14 @@ public class pusherscript : MonoBehaviour
     public BoxCollider PushBoxAkaHandPosition;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    public float power;
 
-    }
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.GetComponent<Rigidbody>() != null)
         {
-            other.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.forward);
+            other.gameObject.transform.Translate((other.gameObject.transform.position - GetComponentInParent<Transform>().position) * power);
             print("putting");
         }
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
