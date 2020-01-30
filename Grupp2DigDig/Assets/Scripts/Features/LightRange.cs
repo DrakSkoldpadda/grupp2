@@ -8,12 +8,19 @@ public class LightRange : MonoBehaviour
     private InTheDarkMeater outside;
     public float lightRange = 4f;
 
+    [SerializeField] private Transform LightRangeObject;
+
     // Start is called before the first frame update
     void Awake()
     {
         player = GameObject.FindWithTag("Player").transform;
 
         outside = GameObject.FindWithTag("UI").GetComponent<InTheDarkMeater>();
+    }
+
+    private void Start()
+    {
+        LightObjectSize();
     }
 
     // Update is called once per frame
@@ -33,5 +40,10 @@ public class LightRange : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, lightRange);
+    }
+
+    private void LightObjectSize()
+    {
+
     }
 }
