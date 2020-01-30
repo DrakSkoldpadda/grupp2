@@ -36,7 +36,7 @@ public class OfficialPlayerMovement : MonoBehaviour
 
 
     [Header("")]
-    private CharacterController controller;
+    public CharacterController controller;
 
 
 
@@ -391,4 +391,5 @@ public class OfficialPlayerMovement : MonoBehaviour
         playerVelocity = Vector3.zero;
         isDead = false;
     }
+
 }
