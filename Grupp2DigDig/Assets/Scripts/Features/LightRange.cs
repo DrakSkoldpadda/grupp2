@@ -44,6 +44,6 @@ public class LightRange : MonoBehaviour
 
     private void LightObjectSize()
     {
-
+        
     }
 }
