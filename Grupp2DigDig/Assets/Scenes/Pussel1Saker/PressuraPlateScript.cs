@@ -36,7 +36,7 @@ public class PressuraPlateScript : MonoBehaviour
     IEnumerator Ner()
     {
         inAction = true;
-        yield return new WaitForSeconds(0.48f);
+        yield return new WaitForSeconds(0.18f);
 
         print("Pressureplate ner");
         for (int i = 0; i < timeToGoDown; i++)
@@ -52,7 +52,7 @@ public class PressuraPlateScript : MonoBehaviour
     IEnumerator Upp()
     {
         inAction = true;
-        yield return new WaitForSeconds(0.48f);
+        yield return new WaitForSeconds(0.18f);
 
         print("Pressureplate upp");
         for (int i = 0; i < timeToGoDown; i++)
