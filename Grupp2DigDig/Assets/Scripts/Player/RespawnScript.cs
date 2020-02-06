@@ -48,7 +48,6 @@ public class RespawnScript : MonoBehaviour
     IEnumerator WhatHappensInRespawn()
     {
         alreadyDead = true;
-        playerAnimator.SetTrigger("die");
         yield return new WaitForSeconds(2);
         playerTransform.transform.position = placeToSpawn.transform.position;
         alreadyDead = false;
