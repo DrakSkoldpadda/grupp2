@@ -8,6 +8,7 @@ public class PressuraPlateScript : MonoBehaviour
 {
     BoxCollider kollider;
     public float timeToGoDown;
+    public float length;
     bool uppe;
     bool inAction;
     public GameObject doerrSomSkaOeppnas;
@@ -40,7 +41,7 @@ public class PressuraPlateScript : MonoBehaviour
         print("Pressureplate ner");
         for (int i = 0; i < timeToGoDown; i++)
         {
-            transform.Translate(0, -0.30f / timeToGoDown, 0);
+            transform.Translate(0, -length / timeToGoDown, 0);
             yield return new WaitForFixedUpdate();
         }
         inAction = false;
@@ -56,7 +57,7 @@ public class PressuraPlateScript : MonoBehaviour
         print("Pressureplate upp");
         for (int i = 0; i < timeToGoDown; i++)
         {
-            transform.Translate(0, 0.30f / timeToGoDown, 0);
+            transform.Translate(0,length / timeToGoDown, 0);
             yield return new WaitForFixedUpdate();
         }
         inAction = false;
