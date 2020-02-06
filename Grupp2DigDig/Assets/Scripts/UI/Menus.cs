@@ -9,6 +9,10 @@ using UnityEngine.SceneManagement;
 
 public class Menus : MonoBehaviour
 {
+    public bool canMove = false;
+
+    [SerializeField] private EventSystem eventSystem;
+
     [Header("Menus")]
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject optionsMenu;
@@ -25,16 +29,19 @@ public class Menus : MonoBehaviour
     [SerializeField] private Button optionsBackButton;
     [SerializeField] private Button keybindingsBackButton;
 
-    [Header("Things")]
-    [SerializeField] private EventSystem eventSystem;
+    [Header("Audio")]
     [SerializeField] private Slider audioSlider;
-    [SerializeField] private Slider sensitivitySlider;
     [SerializeField] private AudioMixer mixer;
-    [SerializeField] private RespawnScript startPoint;
-    [SerializeField] private ThirdPersonCamera cameraScript;
 
-    [Header("Animator")]
-    [SerializeField] private Animator animator;
+    [Header("Sensitivity")]
+    [SerializeField] private Slider sensitivitySlider;
+
+    [Header("Start")]
+    [SerializeField] private RespawnScript startPoint;
+
+    [Header("Camera")]
+    [SerializeField] private ThirdPersonCamera cameraScript;
+    private Animator cameraAnimator;
 
     private bool isInMainMenu = true;
     private bool isInOptionsMenu = false;
@@ -48,6 +55,8 @@ public class Menus : MonoBehaviour
 
     private void Start()
     {
+        cameraAnimator = cameraScript.gameObject.GetComponent<Animator>();
+
         mixer.SetFloat("MasterVolume", volumeValue);
         volumeValue = audioSlider.value;
         sensitivityValue = sensitivitySlider.value;
@@ -144,6 +153,7 @@ public class Menus : MonoBehaviour
         isInMainMenu = false;
 
         MouseLockState(true);
+        canMove = true;
 
         int spawnLocation = PlayerPrefs.GetInt("SpawnLocation");
 
@@ -155,7 +165,7 @@ public class Menus : MonoBehaviour
 
     public void OptionsButton()
     {
-        animator.SetBool("isInOptions", true);
+        cameraAnimator.SetBool("isInOptions", true);
 
         isInOptionsMenu = true;
 
@@ -175,7 +185,7 @@ public class Menus : MonoBehaviour
 
     public void KeybindingsMenu()
     {
-        animator.SetBool("isInKeybindings", true);
+        cameraAnimator.SetBool("isInKeybindings", true);
 
         isInOptionsMenu = false;
         isInKeybindingsMenu = true;
@@ -207,7 +217,7 @@ public class Menus : MonoBehaviour
             controllerSelectedButton = optionsButton;
             if (isInOptionsMenu)
             {
-                animator.SetBool("isInOptions", false);
+                cameraAnimator.SetBool("isInOptions", false);
 
                 isInOptionsMenu = false;
 
@@ -217,7 +227,7 @@ public class Menus : MonoBehaviour
             }
             else if (isInKeybindingsMenu)
             {
-                animator.SetBool("isInKeybindings", false);
+                cameraAnimator.SetBool("isInKeybindings", false);
 
                 isInKeybindingsMenu = false;
                 isInOptionsMenu = true;
@@ -264,16 +274,12 @@ public class Menus : MonoBehaviour
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
-
-            //Time.timeScale = 0f;
         }
 
         else
         {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-
-            //Time.timeScale = 1f;
         }
     }
 }

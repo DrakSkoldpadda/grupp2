@@ -12,6 +12,8 @@ public class Holding : MonoBehaviour
 
     private bool dropped = false;
 
+    [SerializeField] private float pickUpDistance = 2f;
+
     // Update is called once per frame
     void Update()
     {
@@ -21,7 +23,7 @@ public class Holding : MonoBehaviour
             lampObject.SetActive(false);
             dropped = true;
         }
-        else if (Input.GetKeyDown(KeyCode.F) && dropped && Vector3.Distance(droppedLamp.transform.position, transform.position) < 1.5f)
+        else if (Input.GetKeyDown(KeyCode.F) && dropped && Vector3.Distance(droppedLamp.transform.position, transform.position) < pickUpDistance)
         {
             Destroy(droppedLamp);
             lampObject.SetActive(true);

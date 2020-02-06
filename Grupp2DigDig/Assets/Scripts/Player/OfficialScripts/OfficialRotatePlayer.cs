@@ -5,7 +5,7 @@ using UnityEngine;
 public class OfficialRotatePlayer : MonoBehaviour
 {
     [SerializeField] private OfficialPlayerMovement mov;
-    private float rotSpeed = 5.0f;
+    public float rotSpeed = 5.0f;
     private Quaternion wishRot;
 
     void Start()

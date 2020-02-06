@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class DoerrScriptt : MonoBehaviour
 {
-    public float timeToOpen;
+    public float timeToOpenFrames;
+    public float degrees;
+    public Vector3 upleftforward;
+
     public Transform gongjern;
     bool closed;
     // Start is called before the first frame update
@@ -26,11 +29,11 @@ public class DoerrScriptt : MonoBehaviour
     {
         if (closed)
         {
-            for (int i = 0; i < timeToOpen; i++)
+            for (int i = 0; i < timeToOpenFrames; i++)
             {
 
                 yield return new WaitForFixedUpdate();
-                transform.RotateAround(gongjern.position, Vector3.up, 90f / timeToOpen);
+                transform.RotateAround(gongjern.position, upleftforward, degrees / timeToOpenFrames);
 
                 // gör sp den öppnas ordentligt med rätt rotation
                 //fixa länkningen mellan plattan och dörren open / close.
@@ -45,11 +48,11 @@ public class DoerrScriptt : MonoBehaviour
     {
         if (!closed)
         {
-            for (int i = 0; i < timeToOpen; i++)
+            for (int i = 0; i < timeToOpenFrames; i++)
             {
 
                 yield return new WaitForFixedUpdate();
-                transform.RotateAround(gongjern.position, Vector3.up, -90f / timeToOpen);
+                transform.RotateAround(gongjern.position, upleftforward, -degrees / timeToOpenFrames);
 
             }
             closed = true;
