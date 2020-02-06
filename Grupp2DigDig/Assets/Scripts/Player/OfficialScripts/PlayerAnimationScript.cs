@@ -36,7 +36,7 @@ public class PlayerAnimationScript : MonoBehaviour
         {
             currentPlayerState = PlayerState.Idle;
 
-            print("Idle");
+            //print("Idle");
         }
         // Else if either horizontal or Vertical is not 0 while grounded. Go Running
         else if ((Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f) && playerMov.controller.isGrounded)
@@ -52,7 +52,7 @@ public class PlayerAnimationScript : MonoBehaviour
         else if (!playerMov.controller.isGrounded && playerMov.playerVelocity.y < -1) 
         {
             currentPlayerState = PlayerState.Falling;
-            print("Falling");
+            //print("Falling");
         }
 
         StartAnimation();
