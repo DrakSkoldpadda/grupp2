@@ -9,6 +9,7 @@ TagManager:
   - dangerous
   - UI
   - movableObject
+  - lykta
   layers:
   - Default
   - TransparentFX
