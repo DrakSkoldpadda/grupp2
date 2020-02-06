@@ -47,6 +47,7 @@ public class RespawnScript : MonoBehaviour
 
     IEnumerator WhatHappensInRespawn()
     {
+        print("ded");
         alreadyDead = true;
         yield return new WaitForSeconds(2);
         playerTransform.transform.position = placeToSpawn.transform.position;

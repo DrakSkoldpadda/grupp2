@@ -157,7 +157,7 @@ public class Menus : MonoBehaviour
 
         int spawnLocation = PlayerPrefs.GetInt("SpawnLocation");
 
-        if (spawnLocation != 1)
+        if (spawnLocation != 0)
         {
             startPoint.Death();
         }

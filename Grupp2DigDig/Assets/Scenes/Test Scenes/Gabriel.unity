@@ -130,7 +130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 507942892}
   m_Layer: 0
-  m_Name: GameObject (2)
+  m_Name: Place to spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,7 +144,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 507942891}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 59.711662, y: -0.25818983, z: 52.236504}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -544,7 +544,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1901264365}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: Respawn location (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -557,8 +557,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1901264364}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 59.711662, y: -0.25818983, z: 52.236504}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 61.499065, y: 3.59, z: 53.16297}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -651,7 +651,9 @@ PrefabInstance:
       propertyPath: lightRangeObject
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 38089293502517478, guid: ef4ef25107afaa84ba6165da670dacf5, type: 3}
+    - {fileID: 8155834466681472869, guid: ef4ef25107afaa84ba6165da670dacf5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ef4ef25107afaa84ba6165da670dacf5, type: 3}
 --- !u!1001 &383850682834000282
 PrefabInstance:
@@ -795,6 +797,11 @@ PrefabInstance:
       propertyPath: death
       value: 
       objectReference: {fileID: 1666744339}
+    - target: {fileID: 2829829376283561706, guid: 7e9e360594bd73842b1fb093e241485d,
+        type: 3}
+      propertyPath: darkMeaterMultiplyer
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 2157935119235911032, guid: 7e9e360594bd73842b1fb093e241485d,
         type: 3}
       propertyPath: m_AnchorMax.y

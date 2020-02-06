@@ -12,12 +12,12 @@ public class SmokeHandeler : MonoBehaviour
     public void RightSmoke()
     {
         rightLegSmoke.Play();
-        Debug.Log("Right SMOOK");
+        //Debug.Log("Right SMOOK");
     }
 
     public void LeftSmoke()
     {
         leftLegSmoke.Play();
-        Debug.Log("Left SMOOK");
+        //Debug.Log("Left SMOOK");
     }
 }
