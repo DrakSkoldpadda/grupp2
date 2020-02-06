@@ -8,7 +8,7 @@ public class LightRange : MonoBehaviour
     private InTheDarkMeater outside;
     public float lightRange = 4f;
 
-    [SerializeField] private Transform LightRangeObject;
+    [SerializeField] private GameObject lightRangeObject;
 
     // Start is called before the first frame update
     void Awake()
@@ -44,6 +44,6 @@ public class LightRange : MonoBehaviour
 
     private void LightObjectSize()
     {
-        
+        lightRangeObject.transform.localScale = new Vector3(lightRange, lightRange, lightRange);
     }
 }
