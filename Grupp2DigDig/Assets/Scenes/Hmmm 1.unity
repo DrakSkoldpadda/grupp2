@@ -60450,7 +60450,7 @@ GameObject:
   - component: {fileID: 1663260249}
   - component: {fileID: 1663260248}
   m_Layer: 0
-  m_Name: SCENE LIGHT
+  m_Name: lite ljus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
