@@ -17,17 +17,21 @@ public class Holding : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && !dropped)
+        if (Input.GetButtonDown("Fire2"))
         {
-            droppedLamp = Instantiate(lampPrefab, new Vector3(dropLocation.position.x, dropLocation.position.y, dropLocation.position.z), Quaternion.identity);
-            lampObject.SetActive(false);
-            dropped = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.F) && dropped && Vector3.Distance(droppedLamp.transform.position, transform.position) < pickUpDistance)
-        {
-            Destroy(droppedLamp);
-            lampObject.SetActive(true);
-            dropped = false;
+            if (!dropped)
+            {
+                droppedLamp = Instantiate(lampPrefab, new Vector3(dropLocation.position.x, dropLocation.position.y, dropLocation.position.z), Quaternion.identity);
+                lampObject.SetActive(false);
+                dropped = true;
+            }
+
+            else if (dropped && Vector3.Distance(droppedLamp.transform.position, transform.position) < pickUpDistance)
+            {
+                Destroy(droppedLamp);
+                lampObject.SetActive(true);
+                dropped = false;
+            }
         }
     }
 }

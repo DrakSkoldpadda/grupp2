@@ -39,11 +39,6 @@ public class ThirdPersonCamera : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        
-    }
-
     //Så att cameran slår i teräng så att cameran inte åker utanför kartan
     private void CamCollisionDistance()
     {
@@ -79,11 +74,6 @@ public class ThirdPersonCamera : MonoBehaviour
         {
             wantedCamDistance = cameraMaxDistance;
         }
-    }
-
-    private void FixedUpdate()
-    {
-
     }
 
     private void LateUpdate()

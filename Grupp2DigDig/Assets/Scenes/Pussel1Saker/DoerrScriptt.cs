@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
+
 public class DoerrScriptt : MonoBehaviour
 {
-    public float timeToOpenFrames;
-    public float degrees;
-    public Vector3 upleftforward;
+    Animator anim;
 
-    public Transform gongjern;
     bool closed;
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponent<Animator>();
         closed = true;
+        anim.enabled = false;
     }
 
     public void OpenDoor()
@@ -29,16 +30,10 @@ public class DoerrScriptt : MonoBehaviour
     {
         if (closed)
         {
-            for (int i = 0; i < timeToOpenFrames; i++)
-            {
 
-                yield return new WaitForFixedUpdate();
-                transform.RotateAround(gongjern.position, upleftforward, degrees / timeToOpenFrames);
+            yield return new WaitForFixedUpdate();
+            anim.enabled = true;
 
-                // gör sp den öppnas ordentligt med rätt rotation
-                //fixa länkningen mellan plattan och dörren open / close.
-
-            }
             closed = false;
         }
     }
@@ -48,13 +43,10 @@ public class DoerrScriptt : MonoBehaviour
     {
         if (!closed)
         {
-            for (int i = 0; i < timeToOpenFrames; i++)
-            {
 
-                yield return new WaitForFixedUpdate();
-                transform.RotateAround(gongjern.position, upleftforward, -degrees / timeToOpenFrames);
+            yield return new WaitForFixedUpdate();
+            anim.enabled = false;
 
-            }
             closed = true;
         }
     }

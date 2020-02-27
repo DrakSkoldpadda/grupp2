@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 
 public class Menus : MonoBehaviour
 {
+    public bool canMove = false;
+
     [SerializeField] private EventSystem eventSystem;
 
     [Header("Menus")]
@@ -151,10 +153,11 @@ public class Menus : MonoBehaviour
         isInMainMenu = false;
 
         MouseLockState(true);
+        canMove = true;
 
         int spawnLocation = PlayerPrefs.GetInt("SpawnLocation");
 
-        if (spawnLocation != 1)
+        if (spawnLocation != 0)
         {
             startPoint.Death();
         }
@@ -271,16 +274,12 @@ public class Menus : MonoBehaviour
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
-
-            //Time.timeScale = 0f;
         }
 
         else
         {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-
-            //Time.timeScale = 1f;
         }
     }
 }
