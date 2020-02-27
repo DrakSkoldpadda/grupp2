@@ -33,6 +33,12 @@ public class OfficialPlayerMovement : MonoBehaviour
     public float jumpSpeed = 8.0f; // The speed at which the character's up axis gains when hitting jump
     public bool holdJumpToBhop = false; // When enabled allows the player to hold jump button to keep on bhopping perfecly. Beware: smells like casual
 
+    [SerializeField] private float slopeForce; // Force added when traveling down a slope to prevent "slope bouncing"
+    [SerializeField] private float slopeForceRayLeangth; // The leangth of the ray to se if you are on a slope
+    private bool isJumping; // Only used for the slope checking due to me not using anything to see if I'm jumping
+
+
+
 
 
     [Header("")]
@@ -106,6 +112,11 @@ public class OfficialPlayerMovement : MonoBehaviour
         // Move the controller
         controller.Move(playerVelocity * Time.deltaTime);
 
+        if ((cmd.forwardMove != 0 || cmd.rightMove != 0) && OnSlope())
+        {
+            controller.Move(Vector3.down * controller.height / 2 * slopeForce * Time.deltaTime);
+        }
+
 
         // Calculate top velocity
         Vector3 udp = playerVelocity;
@@ -123,7 +134,19 @@ public class OfficialPlayerMovement : MonoBehaviour
 
     }
 
+    private bool OnSlope()
+    {
+        if (isJumping)
+            return false;
 
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, controller.height / 2 * slopeForceRayLeangth))
+            if (hit.normal != Vector3.up)
+                return true;
+
+        return false;
+    }
 
 
     /***************************\
@@ -149,7 +172,7 @@ public class OfficialPlayerMovement : MonoBehaviour
             return;
         }
 
-        // If you are mid air and want to imideatly jump again after landing just hold space again after releasing it the first time
+        // If you are mid air and want to imideatly jump again after landing just hold space again, after releasing it the first time
         if (Input.GetKeyDown(KeyCode.Space) && !wishJump)
             wishJump = true;
         if (Input.GetKeyUp(KeyCode.Space))
@@ -299,6 +322,7 @@ public class OfficialPlayerMovement : MonoBehaviour
         // Applies the velovity upwards for the jump
         if (wishJump)
         {
+            isJumping = true;
             playerVelocity.y = jumpSpeed;
             wishJump = false;
         }
@@ -324,6 +348,7 @@ public class OfficialPlayerMovement : MonoBehaviour
         // If grounded apply friction
         if (controller.isGrounded)
         {
+            isJumping = false;
             control = speed < runDecceleration ? runDecceleration : speed;
             drop = control * friction * Time.deltaTime * t;
         }
