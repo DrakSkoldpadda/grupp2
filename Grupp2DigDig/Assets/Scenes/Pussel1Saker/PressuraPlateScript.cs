@@ -12,6 +12,8 @@ public class PressuraPlateScript : MonoBehaviour
     bool uppe;
     bool inAction;
     public GameObject doerrSomSkaOeppnas;
+    [Header("Tag")]
+    public string tagSomAktiverar;
 
     // Start is called before the first frame update
     void Start()
@@ -22,15 +24,16 @@ public class PressuraPlateScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //if(other.gameObject.tag == "nånting")
-        if (uppe == true && inAction == false)
-            StartCoroutine(Ner());
+        if (other.gameObject.tag == tagSomAktiverar)
+            if (uppe == true && inAction == false)
+                StartCoroutine(Ner());
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (uppe == false && inAction == false)
-            StartCoroutine(Upp());
+        if (other.gameObject.tag == tagSomAktiverar)
+            if (uppe == false && inAction == false)
+                StartCoroutine(Upp());
     }
 
     IEnumerator Ner()
@@ -57,7 +60,7 @@ public class PressuraPlateScript : MonoBehaviour
         print("Pressureplate upp");
         for (int i = 0; i < timeToGoDown; i++)
         {
-            transform.Translate(0,length / timeToGoDown, 0);
+            transform.Translate(0, length / timeToGoDown, 0);
             yield return new WaitForFixedUpdate();
         }
         inAction = false;
