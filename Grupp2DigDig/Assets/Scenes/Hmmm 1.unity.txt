@@ -796,7 +796,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &19244166
 Light:
   m_ObjectHideFlags: 0
@@ -56400,7 +56400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 0}
+  sharedProfile: {fileID: 11400000, guid: 8b408c3983a0d1948a48e881a398dcdd, type: 2}
   isGlobal: 1
   blendDistance: 0
   weight: 1
@@ -58021,18 +58021,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerView: {fileID: 0}
-  moveSpeed: 6
-  runAcceleration: 14
-  runDecceleration: 10
+  moveSpeed: 7
+  runAcceleration: 100
+  runDecceleration: 100
   airAcceleration: 2
   airDecceleration: 2
   airControl: 0.3
   sideStrafeAcceleration: 50
   sideStrafeSpeed: 1
-  jumpSpeed: 9.5
+  jumpSpeed: 8
   holdJumpToBhop: 0
-  slopeForce: 2
-  slopeForceRayLeangth: 1.5
+  slopeForce: 0
+  slopeForceRayLeangth: 0
   controller: {fileID: 0}
   playerVelocity: {x: 0, y: 0, z: 0}
 --- !u!143 &1550656066
@@ -61000,7 +61000,7 @@ Light:
   serializedVersion: 9
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.2
+  m_Intensity: 0.03
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -86875,36 +86875,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
-        type: 3}
-      propertyPath: slopeForce
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
-        type: 3}
-      propertyPath: slopeForceRayLeangth
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
-        type: 3}
-      propertyPath: moveSpeed
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
-        type: 3}
-      propertyPath: runAcceleration
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
-        type: 3}
-      propertyPath: runDecceleration
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
-        type: 3}
-      propertyPath: jumpSpeed
-      value: 9.5
       objectReference: {fileID: 0}
     - target: {fileID: 5038775081174348371, guid: 01c99f302c469d64f823be94cd3fe2b6,
         type: 3}
