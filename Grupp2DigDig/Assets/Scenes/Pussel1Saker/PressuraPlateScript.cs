@@ -39,9 +39,11 @@ public class PressuraPlateScript : MonoBehaviour
     IEnumerator Ner()
     {
         inAction = true;
-        yield return new WaitForSeconds(0.18f);
+        yield return new WaitForSeconds(0.28f);
 
         print("Pressureplate ner");
+        doerrSomSkaOeppnas.GetComponent<DoerrScriptt>().OpenDoor();
+
         for (int i = 0; i < timeToGoDown; i++)
         {
             transform.Translate(0, -length / timeToGoDown, 0);
@@ -49,13 +51,12 @@ public class PressuraPlateScript : MonoBehaviour
         }
         inAction = false;
         uppe = false;
-        doerrSomSkaOeppnas.GetComponent<DoerrScriptt>().OpenDoor();
     }
 
     IEnumerator Upp()
     {
         inAction = true;
-        yield return new WaitForSeconds(0.18f);
+        yield return new WaitForSeconds(0.68f);
 
         print("Pressureplate upp");
         for (int i = 0; i < timeToGoDown; i++)
