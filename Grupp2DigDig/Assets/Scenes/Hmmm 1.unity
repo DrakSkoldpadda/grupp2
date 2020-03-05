@@ -59187,16 +59187,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerView: {fileID: 0}
-  moveSpeed: 7
-  runAcceleration: 100
-  runDecceleration: 100
+  moveSpeed: 6
+  runAcceleration: 14
+  runDecceleration: 10
   airAcceleration: 2
   airDecceleration: 2
   airControl: 0.3
   sideStrafeAcceleration: 50
   sideStrafeSpeed: 1
-  jumpSpeed: 8
+  jumpSpeed: 9.5
   holdJumpToBhop: 0
+  slopeForce: 2
+  slopeForceRayLeangth: 1.5
   controller: {fileID: 0}
   playerVelocity: {x: 0, y: 0, z: 0}
 --- !u!143 &1550656066
@@ -88434,10 +88436,68 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1640651257, guid: 01c99f302c469d64f823be94cd3fe2b6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 1640651258, guid: 01c99f302c469d64f823be94cd3fe2b6, type: 3}
+      propertyPath: m_Range
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1640651258, guid: 01c99f302c469d64f823be94cd3fe2b6, type: 3}
+      propertyPath: m_SpotAngle
+      value: 123.429146
+      objectReference: {fileID: 0}
+    - target: {fileID: 1640651258, guid: 01c99f302c469d64f823be94cd3fe2b6, type: 3}
+      propertyPath: m_Intensity
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 514036074, guid: 01c99f302c469d64f823be94cd3fe2b6, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9811321
+      objectReference: {fileID: 0}
+    - target: {fileID: 514036074, guid: 01c99f302c469d64f823be94cd3fe2b6, type: 3}
+      propertyPath: m_Color.g
+      value: 0.8457919
+      objectReference: {fileID: 0}
+    - target: {fileID: 514036074, guid: 01c99f302c469d64f823be94cd3fe2b6, type: 3}
+      propertyPath: m_Color.b
+      value: 0.47668213
+      objectReference: {fileID: 0}
     - target: {fileID: 5038775081174348376, guid: 01c99f302c469d64f823be94cd3fe2b6,
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
+        type: 3}
+      propertyPath: slopeForce
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
+        type: 3}
+      propertyPath: slopeForceRayLeangth
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
+        type: 3}
+      propertyPath: runAcceleration
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
+        type: 3}
+      propertyPath: runDecceleration
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
+        type: 3}
+      propertyPath: jumpSpeed
+      value: 9.5
       objectReference: {fileID: 0}
     - target: {fileID: 5038775081174348371, guid: 01c99f302c469d64f823be94cd3fe2b6,
         type: 3}
@@ -88493,34 +88553,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 514036074, guid: 01c99f302c469d64f823be94cd3fe2b6, type: 3}
-      propertyPath: m_Color.r
-      value: 0.9811321
-      objectReference: {fileID: 0}
-    - target: {fileID: 514036074, guid: 01c99f302c469d64f823be94cd3fe2b6, type: 3}
-      propertyPath: m_Color.g
-      value: 0.8457919
-      objectReference: {fileID: 0}
-    - target: {fileID: 514036074, guid: 01c99f302c469d64f823be94cd3fe2b6, type: 3}
-      propertyPath: m_Color.b
-      value: 0.47668213
-      objectReference: {fileID: 0}
-    - target: {fileID: 1640651257, guid: 01c99f302c469d64f823be94cd3fe2b6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 5.61
-      objectReference: {fileID: 0}
-    - target: {fileID: 1640651258, guid: 01c99f302c469d64f823be94cd3fe2b6, type: 3}
-      propertyPath: m_Range
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 1640651258, guid: 01c99f302c469d64f823be94cd3fe2b6, type: 3}
-      propertyPath: m_SpotAngle
-      value: 123.429146
-      objectReference: {fileID: 0}
-    - target: {fileID: 1640651258, guid: 01c99f302c469d64f823be94cd3fe2b6, type: 3}
-      propertyPath: m_Intensity
-      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01c99f302c469d64f823be94cd3fe2b6, type: 3}
