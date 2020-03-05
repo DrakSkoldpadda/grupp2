@@ -58021,18 +58021,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerView: {fileID: 0}
-  moveSpeed: 7
-  runAcceleration: 100
-  runDecceleration: 100
+  moveSpeed: 6
+  runAcceleration: 14
+  runDecceleration: 10
   airAcceleration: 2
   airDecceleration: 2
   airControl: 0.3
   sideStrafeAcceleration: 50
   sideStrafeSpeed: 1
-  jumpSpeed: 8
+  jumpSpeed: 9.5
   holdJumpToBhop: 0
+<<<<<<< HEAD
+  slopeForce: 2
+  slopeForceRayLeangth: 1.5
+=======
   slopeForce: 0
   slopeForceRayLeangth: 0
+>>>>>>> 4a02691054e1e6334bbc6a51db345811a4d3ca84
   controller: {fileID: 0}
   playerVelocity: {x: 0, y: 0, z: 0}
 --- !u!143 &1550656066
@@ -86875,6 +86880,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
+        type: 3}
+      propertyPath: slopeForce
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
+        type: 3}
+      propertyPath: slopeForceRayLeangth
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
+        type: 3}
+      propertyPath: runAcceleration
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
+        type: 3}
+      propertyPath: runDecceleration
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038775081174348383, guid: 01c99f302c469d64f823be94cd3fe2b6,
+        type: 3}
+      propertyPath: jumpSpeed
+      value: 9.5
       objectReference: {fileID: 0}
     - target: {fileID: 5038775081174348371, guid: 01c99f302c469d64f823be94cd3fe2b6,
         type: 3}
