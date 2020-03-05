@@ -44,6 +44,9 @@ public class LightRange : MonoBehaviour
 
     private void LightObjectSize()
     {
-        lightRangeObject.transform.localScale = new Vector3(lightRange, lightRange, lightRange);
+        if (lightRangeObject != null)
+        {
+            lightRangeObject.transform.localScale = new Vector3(lightRange, lightRange, lightRange);
+        }
     }
 }

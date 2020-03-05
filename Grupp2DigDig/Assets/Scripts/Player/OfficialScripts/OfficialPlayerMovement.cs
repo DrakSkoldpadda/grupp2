@@ -136,7 +136,7 @@ public class OfficialPlayerMovement : MonoBehaviour
 
     private bool OnSlope()
     {
-        if (wishJump)
+        if (isJumping)
             return false;
 
         RaycastHit hit;
@@ -322,6 +322,7 @@ public class OfficialPlayerMovement : MonoBehaviour
         // Applies the velovity upwards for the jump
         if (wishJump)
         {
+            isJumping = true;
             playerVelocity.y = jumpSpeed;
             wishJump = false;
         }
@@ -347,6 +348,7 @@ public class OfficialPlayerMovement : MonoBehaviour
         // If grounded apply friction
         if (controller.isGrounded)
         {
+            isJumping = false;
             control = speed < runDecceleration ? runDecceleration : speed;
             drop = control * friction * Time.deltaTime * t;
         }

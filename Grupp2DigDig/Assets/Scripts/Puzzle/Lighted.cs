@@ -5,7 +5,7 @@ using UnityEngine;
 public class Lighted : MonoBehaviour
 {
     private Transform lamp;
-    [SerializeField] private float activtedRange;
+    [SerializeField] private float activtedRange = 4;
     [SerializeField] private bool activated;
     private Material mat;
     private Color matColor;
