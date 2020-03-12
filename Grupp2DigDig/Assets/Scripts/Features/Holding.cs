@@ -15,7 +15,15 @@ public class Holding : MonoBehaviour
 
     [SerializeField] private float pickUpDistance = 2f;
 
-    private ItemsToHold holingItem;
+    private ItemsToHold itemToHold;
+
+    private GameObject[] items;
+    private GameObject closest = null;
+
+    private void Start()
+    {
+        items = GameObject.FindGameObjectsWithTag("Item");
+    }
 
     // Update is called once per frame
     void Update()
@@ -29,7 +37,31 @@ public class Holding : MonoBehaviour
 
     void HoldingItem()
     {
+        if (holdingAItem)
+        {
+            itemToHold.transform.position = dropLocation.position;
+            itemToHold = null;
+        }
 
+        else if (!holdingAItem && !holdingLatern)
+        {
+            itemToHold = ClosestItem().GetComponent<ItemsToHold>();
+
+        }
+    }
+
+    public GameObject ClosestItem()
+    {
+        foreach (GameObject item in items)
+        {
+            Vector3 diff = item.transform.position - transform.position;
+            float currentDistance = diff.sqrMagnitude;
+            if (currentDistance < pickUpDistance)
+            {
+                closest = item;
+            }
+        }
+        return closest;
     }
 
     void Lantern()
@@ -41,7 +73,7 @@ public class Holding : MonoBehaviour
             holdingLatern = false;
         }
 
-        else if (!holdingLatern && Vector3.Distance(droppedLamp.transform.position, transform.position) < pickUpDistance)
+        else if (!holdingLatern && !holdingAItem && Vector3.Distance(droppedLamp.transform.position, transform.position) < pickUpDistance)
         {
             Destroy(droppedLamp);
             lampObject.SetActive(true);
