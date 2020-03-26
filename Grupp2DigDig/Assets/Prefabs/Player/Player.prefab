@@ -9927,9 +9927,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerView: {fileID: 0}
-  moveSpeed: 7
-  runAcceleration: 14
-  runDecceleration: 10
+  moveSpeed: 5
+  runAcceleration: 15
+  runDecceleration: 5
   airAcceleration: 2
   airDecceleration: 2
   airControl: 0.3
@@ -9937,8 +9937,8 @@ MonoBehaviour:
   sideStrafeSpeed: 1
   jumpSpeed: 8
   holdJumpToBhop: 0
-  slopeForce: 0
-  slopeForceRayLeangth: 0
+  slopeForce: 5
+  slopeForceRayLeangth: 1.5
   controller: {fileID: 0}
   playerVelocity: {x: 0, y: 0, z: 0}
 --- !u!114 &4991971298938792053
