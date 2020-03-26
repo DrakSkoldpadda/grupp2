@@ -38,7 +38,7 @@ public class OfficialPlayerMovement : MonoBehaviour
     private bool isJumping; // Only used for the slope checking due to me not using anything to see if I'm jumping
 
 
-
+    public bool CanMove = true;
 
 
     [Header("")]
@@ -101,12 +101,12 @@ public class OfficialPlayerMovement : MonoBehaviour
     private void Update()
     {
         // Movement, Note: Important
-
         QueueJump();
         if (controller.isGrounded)
             GroundMove();
         else if (!controller.isGrounded)
             AirMove();
+
 
 
         // Move the controller
@@ -158,8 +158,12 @@ public class OfficialPlayerMovement : MonoBehaviour
     // Sets the movement direction based on player input
     void SetMovementDir()
     {
-        cmd.forwardMove = Input.GetAxis("Vertical");
-        cmd.rightMove = Input.GetAxis("Horizontal");
+        if (CanMove)
+        {
+            cmd.forwardMove = Input.GetAxis("Vertical");
+            cmd.rightMove = Input.GetAxis("Horizontal");
+
+        }
     }
 
 
