@@ -23,6 +23,6 @@ public class Puzzel2Script : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
 
-        transform.Rotate(hingeJärn.transform.up, 90);
+        transform.Rotate(hingeJärn.transform.up, 900);
     }
 }

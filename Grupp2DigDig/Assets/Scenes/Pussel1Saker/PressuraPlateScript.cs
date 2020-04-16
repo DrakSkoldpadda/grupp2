@@ -15,11 +15,23 @@ public class PressuraPlateScript : MonoBehaviour
     [Header("Tag")]
     public string tagSomAktiverar;
 
+
+    AudioSource ljud;
+
+    [Header("Ljud")]
+    public AudioSource ljudForStenarna;
+    public AudioSource waterStenarnaLjud;
+    bool harspelatStenLjud;
+
     // Start is called before the first frame update
     void Start()
     {
         uppe = true;
         kollider = GetComponent<BoxCollider>();
+
+        ljud = GetComponent<AudioSource>();
+
+        harspelatStenLjud = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -41,6 +53,7 @@ public class PressuraPlateScript : MonoBehaviour
         inAction = true;
         yield return new WaitForSeconds(0.28f);
 
+        ljud.Play();
         print("Pressureplate ner");
         doerrSomSkaOeppnas.GetComponent<DoerrScriptt>().OpenDoor();
 
@@ -50,13 +63,25 @@ public class PressuraPlateScript : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         inAction = false;
+
+        ljud.Stop();
         uppe = false;
+
+        if (harspelatStenLjud == false)
+        {
+            waterStenarnaLjud.Play();
+
+            yield return new WaitForSeconds(1.5f);
+            ljudForStenarna.Play();
+            harspelatStenLjud = true;
+        }
     }
 
     IEnumerator Upp()
     {
         inAction = true;
         yield return new WaitForSeconds(0.68f);
+        ljud.Play();
 
         print("Pressureplate upp");
         for (int i = 0; i < timeToGoDown; i++)
@@ -65,6 +90,8 @@ public class PressuraPlateScript : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         inAction = false;
+        ljud.Stop();
+
         uppe = true;
         doerrSomSkaOeppnas.GetComponent<DoerrScriptt>().CloseDoor();
     }
