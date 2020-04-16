@@ -9,9 +9,10 @@ public class Holding : MonoBehaviour
     private GameObject droppedLamp;
 
     [SerializeField] private Transform dropLocation;
+    [SerializeField] private Transform holdingLocation;
 
     private bool holdingAItem = false;
-    private bool holdingLatern = false;
+    private bool holdingLatern = true;
 
     [SerializeField] private float pickUpDistance = 2f;
 
@@ -30,8 +31,19 @@ public class Holding : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire2"))
         {
-            Lantern();
-            HoldingItem();
+            if (!holdingAItem)
+            {
+                Lantern();
+            }
+            if (!holdingLatern)
+            {
+                HoldingItem();
+            }
+        }
+        if (holdingAItem)
+        {
+            float step = 10 * Time.deltaTime;
+            itemToHold.transform.position = Vector3.MoveTowards(itemToHold.transform.position, holdingLocation.position, step);
         }
     }
 
@@ -43,10 +55,9 @@ public class Holding : MonoBehaviour
             itemToHold = null;
         }
 
-        else if (!holdingAItem && !holdingLatern)
+        else
         {
             itemToHold = ClosestItem().GetComponent<ItemsToHold>();
-
         }
     }
 
@@ -61,7 +72,14 @@ public class Holding : MonoBehaviour
                 closest = item;
             }
         }
-        return closest;
+        if (closest != null)
+        {
+            return closest;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     void Lantern()

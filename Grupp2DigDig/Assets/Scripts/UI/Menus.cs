@@ -41,7 +41,6 @@ public class Menus : MonoBehaviour
 
     [Header("Camera")]
     [SerializeField] private ThirdPersonCamera cameraScript;
-    private Animator cameraAnimator;
 
     private bool isInMainMenu = true;
     private bool isInOptionsMenu = false;
@@ -53,10 +52,10 @@ public class Menus : MonoBehaviour
 
     private bool firstTime = false;
 
+    private FPS fpsMeter;
+
     private void Start()
     {
-        cameraAnimator = cameraScript.gameObject.GetComponent<Animator>();
-
         mixer.SetFloat("MasterVolume", volumeValue);
         volumeValue = audioSlider.value;
         sensitivityValue = sensitivitySlider.value;
@@ -71,6 +70,8 @@ public class Menus : MonoBehaviour
         game.SetActive(false);
 
         cameraScript.canUseCamera = false;
+
+        fpsMeter = gameObject.GetComponent<FPS>();
     }
 
     private void Update()
@@ -165,8 +166,6 @@ public class Menus : MonoBehaviour
 
     public void OptionsButton()
     {
-        cameraAnimator.SetBool("isInOptions", true);
-
         isInOptionsMenu = true;
 
         pauseMenu.SetActive(false);
@@ -185,8 +184,6 @@ public class Menus : MonoBehaviour
 
     public void KeybindingsMenu()
     {
-        cameraAnimator.SetBool("isInKeybindings", true);
-
         isInOptionsMenu = false;
         isInKeybindingsMenu = true;
 
@@ -217,8 +214,6 @@ public class Menus : MonoBehaviour
             controllerSelectedButton = optionsButton;
             if (isInOptionsMenu)
             {
-                cameraAnimator.SetBool("isInOptions", false);
-
                 isInOptionsMenu = false;
 
                 mainMenu.SetActive(true);
@@ -227,8 +222,6 @@ public class Menus : MonoBehaviour
             }
             else if (isInKeybindingsMenu)
             {
-                cameraAnimator.SetBool("isInKeybindings", false);
-
                 isInKeybindingsMenu = false;
                 isInOptionsMenu = true;
 
@@ -281,5 +274,11 @@ public class Menus : MonoBehaviour
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
+    }
+
+    public void FPSmeter(bool active)
+    {
+        fpsMeter.active = active;
+        print(active);
     }
 }
