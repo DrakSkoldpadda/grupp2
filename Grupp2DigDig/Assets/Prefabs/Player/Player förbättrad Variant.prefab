@@ -107,7 +107,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3796253981412394020
 Transform:
   m_ObjectHideFlags: 0
@@ -189,11 +189,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1993861264845593381, guid: ef4ef25107afaa84ba6165da670dacf5,
-        type: 3}
-      propertyPath: m_Name
-      value: "Player f\xF6rb\xE4ttrad"
-      objectReference: {fileID: 0}
     - target: {fileID: 1993861264845593390, guid: ef4ef25107afaa84ba6165da670dacf5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -249,6 +244,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1993861264845593381, guid: ef4ef25107afaa84ba6165da670dacf5,
+        type: 3}
+      propertyPath: m_Name
+      value: "Player f\xF6rb\xE4ttrad Variant"
+      objectReference: {fileID: 0}
     - target: {fileID: 1993861264845593378, guid: ef4ef25107afaa84ba6165da670dacf5,
         type: 3}
       propertyPath: slopeForce
@@ -258,6 +258,16 @@ PrefabInstance:
         type: 3}
       propertyPath: slopeForceRayLeangth
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6541082236384196142, guid: ef4ef25107afaa84ba6165da670dacf5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6959941122001209609, guid: ef4ef25107afaa84ba6165da670dacf5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef4ef25107afaa84ba6165da670dacf5, type: 3}
