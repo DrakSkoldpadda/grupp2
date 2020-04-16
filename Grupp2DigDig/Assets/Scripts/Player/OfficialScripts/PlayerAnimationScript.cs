@@ -5,12 +5,12 @@ using UnityEngine;
 public class PlayerAnimationScript : MonoBehaviour
 {
 
-    private Animator playerAnim;
+    private Animator playerAnim;    
     private OfficialPlayerMovement playerMov;
 
     public float YVelocity;
 
-    enum PlayerState { Jumping, Falling, Idle, Running }
+    enum PlayerState { Jumping, Falling, Idle, Running}
     PlayerState currentPlayerState;
 
     private float moveVelocity;
@@ -24,12 +24,8 @@ public class PlayerAnimationScript : MonoBehaviour
 
     private void Update()
     {
-
         SetAnimationState();
-
         YVelocity = playerMov.playerVelocity.y;
-
-
 
     }
 
@@ -53,7 +49,7 @@ public class PlayerAnimationScript : MonoBehaviour
             currentPlayerState = PlayerState.Jumping;
         }
         // Else if you are also not grounded and is falling down. The FAAAAAAaAaaa.a....l (Also don't fall while standing still)
-        else if (!playerMov.controller.isGrounded && playerMov.playerVelocity.y < -1)
+        else if (!playerMov.controller.isGrounded && playerMov.playerVelocity.y < -1) 
         {
             currentPlayerState = PlayerState.Falling;
             //print("Falling");
@@ -65,7 +61,7 @@ public class PlayerAnimationScript : MonoBehaviour
     void StartAnimation()
     {
 
-        if (currentPlayerState == PlayerState.Idle)
+        if(currentPlayerState == PlayerState.Idle)
         {
             playerAnim.SetInteger("CurrentState", 0);
         }
