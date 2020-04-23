@@ -73872,7 +73872,7 @@ PrefabInstance:
     - target: {fileID: 479127284067567238, guid: 0900264fcaeddef409c02ffa2703958e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -248.2
+      value: -342.8
       objectReference: {fileID: 0}
     - target: {fileID: 479127284067567238, guid: 0900264fcaeddef409c02ffa2703958e,
         type: 3}
@@ -77559,6 +77559,7 @@ GameObject:
   - component: {fileID: 8657477593051189313}
   - component: {fileID: 4095556140073675139}
   - component: {fileID: 8009372983836316377}
+  - component: {fileID: 8009372983836316378}
   m_Layer: 0
   m_Name: grind (script)
   m_TagString: Untagged
@@ -77579,6 +77580,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   "hingeJ\xE4rn": {fileID: 1630689952}
+--- !u!65 &8009372983836316378
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8009372983836316376}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.055435695, y: 0.048438575, z: 0.0025489174}
+  m_Center: {x: 9.313226e-10, y: 0.000000009313226, z: 0}
 --- !u!33 &8657477593051189313
 MeshFilter:
   m_ObjectHideFlags: 0
