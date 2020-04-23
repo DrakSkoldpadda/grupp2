@@ -52,8 +52,6 @@ public class Menus : MonoBehaviour
 
     private bool firstTime = false;
 
-    private FPS fpsMeter;
-
     private void Start()
     {
         mixer.SetFloat("MasterVolume", volumeValue);
@@ -70,8 +68,6 @@ public class Menus : MonoBehaviour
         game.SetActive(false);
 
         cameraScript.canUseCamera = false;
-
-        fpsMeter = gameObject.GetComponent<FPS>();
     }
 
     private void Update()
@@ -274,11 +270,5 @@ public class Menus : MonoBehaviour
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
-    }
-
-    public void FPSmeter(bool active)
-    {
-        fpsMeter.active = active;
-        print(active);
     }
 }
