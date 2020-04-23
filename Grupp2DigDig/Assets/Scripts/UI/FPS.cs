@@ -21,16 +21,16 @@ public class FPS : MonoBehaviour
 
     void OnGUI()
     {
-        int w = Screen.width, h = Screen.height;
+            int w = Screen.width, h = Screen.height;
 
-        GUIStyle style = new GUIStyle();
+            GUIStyle style = new GUIStyle();
 
-        Rect rect = new Rect(0, 0, w, h * 2 / 100);
-        style.alignment = TextAnchor.UpperLeft;
-        style.fontSize = h * 2 / 100;
-        style.normal.textColor = FPSDisplayColor;
-        float fps = 1.0f / deltaTime;
-        string text = string.Format("{0:0.} fps", fps);
-        GUI.Label(rect, text, style);
+            Rect rect = new Rect(0, 0, w, h * 2 / 100);
+            style.alignment = TextAnchor.UpperLeft;
+            style.fontSize = h * 2 / 100;
+            style.normal.textColor = FPSDisplayColor;
+            float fps = 1.0f / deltaTime;
+            string text = string.Format("{0:0.} fps", fps);
+            GUI.Label(rect, text, style);
     }
 }

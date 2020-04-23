@@ -10,7 +10,7 @@ public class LightRange : MonoBehaviour
     private bool isInLight;
 
 
-    [SerializeField] private GameObject lightRangeObject;
+    //[SerializeField] private GameObject lightRangeObject;
 
     // Start is called before the first frame update
     void Awake()
@@ -20,10 +20,10 @@ public class LightRange : MonoBehaviour
         outside = GameObject.FindWithTag("UI").GetComponent<InTheDarkMeater>();
     }
 
-    private void Start()
-    {
-        LightObjectSize();
-    }
+    //private void Start()
+    //{
+    //    LightObjectSize();
+    //}
 
     // Update is called once per frame
     void Update()
@@ -53,11 +53,11 @@ public class LightRange : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, lightRange);
     }
 
-    private void LightObjectSize()
-    {
-        if (lightRangeObject != null)
-        {
-            lightRangeObject.transform.localScale = new Vector3(lightRange, lightRange, lightRange);
-        }
-    }
+    //private void LightObjectSize()
+    //{
+    //    if (lightRangeObject != null)
+    //    {
+    //        lightRangeObject.transform.localScale = new Vector3(lightRange, lightRange, lightRange);
+    //    }
+    //}
 }
