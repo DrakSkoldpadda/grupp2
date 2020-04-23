@@ -193,6 +193,7 @@ GameObject:
   - component: {fileID: 8673617841630743780}
   - component: {fileID: 5306378609952842381}
   - component: {fileID: 3936728728677038327}
+  - component: {fileID: 1002125931515094662}
   - component: {fileID: 837936800}
   m_Layer: 0
   m_Name: Crystal(Glow)
@@ -263,6 +264,21 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &1002125931515094662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4486995255917161566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd696ca3bce37554893fc1a11b24b14a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightRange: 4
+  lightRanges: 0
+  lightRangeObject: {fileID: 0}
 --- !u!114 &837936800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,7 +295,7 @@ MonoBehaviour:
   activtedRange: 4
   activatedObject: {fileID: 0}
   crystalRenderer: {fileID: 0}
-  currentColor: {r: 0.95, g: 0, b: 0.44333336, a: 1}
+  crystaltColor: {r: 0, g: 1, b: 0.1275661, a: 0}
   spotLight: {fileID: 577731134}
   pointLight: {fileID: 103887580}
   spotOriginalIntesety: 70

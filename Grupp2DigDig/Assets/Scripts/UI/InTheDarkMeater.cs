@@ -9,15 +9,21 @@ public class InTheDarkMeater : MonoBehaviour
     [SerializeField] private Slider darkMeater;
     [SerializeField] private float darkMeaterMultiplyer = 1f;
 
-    public bool condition = false;
+    public int lightRanges = 0;
+
     float cooldown = 1f;
 
     // Update is called once per frame
     void Update()
     {
+        if (lightRanges < 0)
+            lightRanges = 0;
+
+
+
         if (darkMeater.value > 0)
         {
-            if (condition)
+            if (lightRanges <= 0)
             {
                 darkMeater.value -= Time.deltaTime * darkMeaterMultiplyer;
 
@@ -31,6 +37,8 @@ public class InTheDarkMeater : MonoBehaviour
                     darkMeater.value += Time.deltaTime * darkMeaterMultiplyer * 2f;
                 }
             }
+
+
         }
         if (darkMeater.value <= 0)
         {
