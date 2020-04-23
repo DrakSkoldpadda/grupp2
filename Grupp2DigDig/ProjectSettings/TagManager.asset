@@ -10,6 +10,7 @@ TagManager:
   - UI
   - movableObject
   - lykta
+  - Item
   layers:
   - Default
   - TransparentFX

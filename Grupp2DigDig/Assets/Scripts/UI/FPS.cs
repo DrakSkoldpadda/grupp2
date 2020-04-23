@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class FPS : MonoBehaviour
 {
-    float deltaTime = 0.0f;
+    private float deltaTime = 0.0f;
+    public bool active;
 
     [SerializeField] private Color FPSDisplayColor = Color.green;
 
