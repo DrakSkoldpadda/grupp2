@@ -11,7 +11,7 @@ public class Lighted : MonoBehaviour
     [SerializeField] protected private Activated activatedObject;
 
     // Update is called once per frame
-    private void Update()
+    public virtual void Update()
     {
         CheckLamp();
 
@@ -34,5 +34,12 @@ public class Lighted : MonoBehaviour
     public void CheckLamp()
     {
         lamp = GameObject.FindWithTag("lykta").GetComponent<Transform>();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+
+        Gizmos.DrawWireSphere(transform.position ,activtedRange);
     }
 }
