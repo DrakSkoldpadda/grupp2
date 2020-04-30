@@ -14,7 +14,7 @@ public class Holding : MonoBehaviour
     private bool holdingAItem = false;
     private bool holdingLatern = true;
 
-    [SerializeField] private float pickUpDistance = 2f;
+    [SerializeField] private float pickUpDistance = 5f;
 
     private ItemsToHold itemToHold;
 
@@ -35,52 +35,52 @@ public class Holding : MonoBehaviour
             {
                 Lantern();
             }
-            if (!holdingLatern)
-            {
-                HoldingItem();
-            }
-        }
-        if (holdingAItem)
-        {
-            float step = 10 * Time.deltaTime;
-            itemToHold.transform.position = Vector3.MoveTowards(itemToHold.transform.position, holdingLocation.position, step);
-        }
-    }
-
-    void HoldingItem()
-    {
-        if (holdingAItem)
-        {
-            itemToHold.transform.position = dropLocation.position;
-            itemToHold = null;
-        }
-
-        else
-        {
-            itemToHold = ClosestItem().GetComponent<ItemsToHold>();
+            //    if (!holdingLatern)
+            //    {
+            //        HoldingItem();
+            //    }
+            //}
+            //if (holdingAItem)
+            //{
+            //    float step = 10 * Time.deltaTime;
+            //    itemToHold.transform.position = Vector3.MoveTowards(itemToHold.transform.position, holdingLocation.position, step);
         }
     }
 
-    public GameObject ClosestItem()
-    {
-        foreach (GameObject item in items)
-        {
-            Vector3 diff = item.transform.position - transform.position;
-            float currentDistance = diff.sqrMagnitude;
-            if (currentDistance < pickUpDistance)
-            {
-                closest = item;
-            }
-        }
-        if (closest != null)
-        {
-            return closest;
-        }
-        else
-        {
-            return null;
-        }
-    }
+    //private void HoldingItem()
+    //{
+    //    if (holdingAItem)
+    //    {
+    //        itemToHold.transform.position = dropLocation.position;
+    //        itemToHold = null;
+    //    }
+
+    //    else
+    //    {
+    //        itemToHold = ClosestItem().GetComponent<ItemsToHold>();
+    //    }
+    //}
+
+    //public GameObject ClosestItem()
+    //{
+    //    foreach (GameObject item in items)
+    //    {
+    //        Vector3 diff = item.transform.position - transform.position;
+    //        float currentDistance = diff.sqrMagnitude;
+    //        if (currentDistance < pickUpDistance)
+    //        {
+    //            closest = item; 
+    //        }
+    //    }
+    //    if (closest != null)
+    //    {
+    //        return closest;
+    //    }
+    //    else
+    //    {
+    //        return null;
+    //    }
+    //}
 
     void Lantern()
     {
@@ -91,7 +91,7 @@ public class Holding : MonoBehaviour
             holdingLatern = false;
         }
 
-        else if (!holdingLatern && !holdingAItem && Vector3.Distance(droppedLamp.transform.position, transform.position) < pickUpDistance)
+        else if (!holdingLatern && Vector3.Distance(droppedLamp.transform.position, transform.position) < pickUpDistance)
         {
             Destroy(droppedLamp);
             lampObject.SetActive(true);

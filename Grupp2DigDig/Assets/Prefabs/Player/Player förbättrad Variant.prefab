@@ -189,6 +189,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1993861264845593381, guid: ef4ef25107afaa84ba6165da670dacf5,
+        type: 3}
+      propertyPath: m_Name
+      value: "Player f\xF6rb\xE4ttrad Variant"
+      objectReference: {fileID: 0}
     - target: {fileID: 1993861264845593390, guid: ef4ef25107afaa84ba6165da670dacf5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -244,11 +249,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1993861264845593381, guid: ef4ef25107afaa84ba6165da670dacf5,
-        type: 3}
-      propertyPath: m_Name
-      value: "Player f\xF6rb\xE4ttrad Variant"
-      objectReference: {fileID: 0}
     - target: {fileID: 1993861264845593378, guid: ef4ef25107afaa84ba6165da670dacf5,
         type: 3}
       propertyPath: slopeForce
@@ -259,6 +259,11 @@ PrefabInstance:
       propertyPath: slopeForceRayLeangth
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4991971298938792053, guid: ef4ef25107afaa84ba6165da670dacf5,
+        type: 3}
+      propertyPath: holdingLocation
+      value: 
+      objectReference: {fileID: 9050828337521874081}
     - target: {fileID: 6541082236384196142, guid: ef4ef25107afaa84ba6165da670dacf5,
         type: 3}
       propertyPath: m_RootOrder
@@ -280,6 +285,12 @@ Transform:
 --- !u!4 &5173292759981747078 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6541082236384196142, guid: ef4ef25107afaa84ba6165da670dacf5,
+    type: 3}
+  m_PrefabInstance: {fileID: 2093520683928903080}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9050828337521874081 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6959941122001209609, guid: ef4ef25107afaa84ba6165da670dacf5,
     type: 3}
   m_PrefabInstance: {fileID: 2093520683928903080}
   m_PrefabAsset: {fileID: 0}

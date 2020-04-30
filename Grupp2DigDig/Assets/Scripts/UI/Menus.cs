@@ -123,7 +123,7 @@ public class Menus : MonoBehaviour
 
     public void SetVolumeLevel(float sliderValue)
     {
-        sliderValue = volumeValue;
+        volumeValue = sliderValue;
 
         mixer.SetFloat("MasterVolume", Mathf.Log10(volumeValue) * 20);
 
@@ -135,7 +135,7 @@ public class Menus : MonoBehaviour
 
     public void SetSensitivity(float sliderValue)
     {
-        sliderValue = sensitivityValue;
+        sensitivityValue = sliderValue;
 
         cameraScript.sensivityX = sensitivityValue;
         cameraScript.sensivityY = sensitivityValue / 2f;

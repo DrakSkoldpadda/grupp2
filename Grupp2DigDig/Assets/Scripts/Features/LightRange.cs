@@ -6,7 +6,7 @@ public class LightRange : MonoBehaviour
 {
     private Transform player;
     private InTheDarkMeater outside;
-    public float lightRange = 4f;
+    public float lightRange = 10f;
 
     //[SerializeField] private GameObject lightRangeObject;
 
