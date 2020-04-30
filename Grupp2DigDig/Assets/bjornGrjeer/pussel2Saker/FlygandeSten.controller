@@ -8,8 +8,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: switch
+  - m_ConditionMode: 2
+    m_ConditionEvent: ner
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 9189949746517752155}
@@ -59,7 +59,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: switch
+    m_ConditionEvent: ner
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6006532529458391506}
@@ -84,8 +84,8 @@ AnimatorController:
   m_Name: FlygandeSten
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: switch
-    m_Type: 9
+  - m_Name: ner
+    m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0

@@ -14,20 +14,29 @@ public class PusselFlygandeStone : MonoBehaviour
 
     private void Start()
     {
-        anim = GetComponent<Animator>();
         ljud = GetComponent<AudioSource>();
+        anim = GetComponent<Animator>();
+
+        anim.SetBool("ner", true);
     }
 
     public void GoUp()
     {
-        ljud.Play();
-        anim.Play("up");
+        anim.SetBool("ner", false);
     }
 
     public void GoDown()
     {
-        ljud.Play();
-        anim.Play("ner");
+        anim.SetBool("ner", true);
+
+    }
+
+    public bool spelaLjud;
+
+    private void FixedUpdate()
+    {
+        if (spelaLjud)
+            ljud.Play();
     }
 
 }

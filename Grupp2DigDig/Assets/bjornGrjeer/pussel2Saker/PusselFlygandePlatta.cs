@@ -42,8 +42,6 @@ public class PusselFlygandePlatta : MonoBehaviour
 
         stenLjud.Stop();
 
-        yield return new WaitForSeconds(0.5f);
-
         koppladSten.GoUp();
     }
 
@@ -53,7 +51,6 @@ public class PusselFlygandePlatta : MonoBehaviour
 
         stenLjud.Play();
 
-
         for (int i = 0; i < 60; i++)
         {
             transform.Translate(new Vector3(0, hurMktNer / 100, 0));
@@ -61,8 +58,6 @@ public class PusselFlygandePlatta : MonoBehaviour
         }
 
         stenLjud.Stop();
-
-        yield return new WaitForSeconds(0.5f);
 
         koppladSten.GoDown();
     }
