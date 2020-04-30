@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Holding : MonoBehaviour
 {
+    // Is neened for only one purpuse
+    private InTheDarkMeater outside;
+
+
+
+
     [SerializeField] private GameObject lampObject;
     [SerializeField] private GameObject lampPrefab;
     private GameObject droppedLamp;
@@ -24,6 +30,7 @@ public class Holding : MonoBehaviour
     private void Start()
     {
         items = GameObject.FindGameObjectsWithTag("Item");
+        outside = GameObject.FindWithTag("UI").GetComponent<InTheDarkMeater>();
     }
 
     // Update is called once per frame
@@ -89,6 +96,10 @@ public class Holding : MonoBehaviour
             droppedLamp = Instantiate(lampPrefab, new Vector3(dropLocation.position.x, dropLocation.position.y, dropLocation.position.z), Quaternion.identity);
             lampObject.SetActive(false);
             holdingLatern = false;
+
+
+            // Whenever the player dropps the lantern the lightRanges goes +1 due to us creating a new light which replays the code.
+            outside.lightRanges--;
         }
 
         else if (!holdingLatern && Vector3.Distance(droppedLamp.transform.position, transform.position) < pickUpDistance)
