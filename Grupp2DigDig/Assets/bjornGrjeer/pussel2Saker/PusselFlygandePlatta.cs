@@ -45,7 +45,6 @@ public class PusselFlygandePlatta : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         koppladSten.GoUp();
-
     }
 
     IEnumerator PlattaUpp()

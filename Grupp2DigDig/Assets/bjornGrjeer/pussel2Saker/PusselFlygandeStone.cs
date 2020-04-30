@@ -20,27 +20,14 @@ public class PusselFlygandeStone : MonoBehaviour
 
     public void GoUp()
     {
-        if (inAction == false)
-        {
-            anim.Play("up");
-            StartCoroutine(WaitforClear());
-        }
+        ljud.Play();
+        anim.Play("up");
     }
 
     public void GoDown()
     {
-        if (inAction == false)
-        {
-            anim.Play("ner");
-            StartCoroutine(WaitforClear());
-        }
+        ljud.Play();
+        anim.Play("ner");
     }
 
-    bool inAction;
-    IEnumerator WaitforClear()
-    {
-        inAction = true;
-        yield return new WaitForSeconds(6f);
-        inAction = false;
-    }
 }
