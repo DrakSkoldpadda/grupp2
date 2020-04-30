@@ -6,7 +6,13 @@ public class LightRange : MonoBehaviour
 {
     private Transform player;
     private InTheDarkMeater outside;
+<<<<<<< HEAD
     public float lightRange = 10f;
+=======
+    public float lightRange = 4f;
+    private bool isInLight;
+
+>>>>>>> efe8b65f4e7e58b3ae4fa5d48388270b2c19d72a
 
     //[SerializeField] private GameObject lightRangeObject;
 
@@ -26,14 +32,23 @@ public class LightRange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector3.Distance(player.position, transform.position) > lightRange)
+        // If the player is ferther than lightRange away then reduse the ammount of light the player is in
+        if (Vector3.Distance(player.position, transform.position) > lightRange && isInLight)
         {
-            outside.condition = true;
+
+            isInLight = false;
+            outside.lightRanges--;
+            print("Outside");
+
         }
-        else
+        else if (Vector3.Distance(player.position, transform.position) <= lightRange && !isInLight)
         {
-            outside.condition = false;
+            isInLight = true;
+            outside.lightRanges++;
+            print("Inside");
+
         }
+
     }
 
     void OnDrawGizmosSelected()

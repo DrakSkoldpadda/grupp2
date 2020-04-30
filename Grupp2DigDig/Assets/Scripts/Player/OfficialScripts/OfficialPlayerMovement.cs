@@ -7,7 +7,8 @@ public class OfficialPlayerMovement : MonoBehaviour
     [Header("Player view stuff")]
     [SerializeField] private Transform playerView; // Must be a camera
 
-
+    [Header("CanMove")]
+    private Menus menuScript;
 
 
 
@@ -87,7 +88,7 @@ public class OfficialPlayerMovement : MonoBehaviour
 
     private void Start()
     {
-
+        menuScript = GameObject.FindGameObjectWithTag("UI").GetComponent<Menus>();
         playerView = Camera.main.transform;
 
 
@@ -110,12 +111,16 @@ public class OfficialPlayerMovement : MonoBehaviour
 
 
         // Move the controller
-        controller.Move(playerVelocity * Time.deltaTime);
+        if (menuScript.canMove)        
+            controller.Move(playerVelocity * Time.deltaTime);        
 
-        if ((cmd.forwardMove != 0 || cmd.rightMove != 0) && OnSlope())
-        {
+
+
+
+
+        if ((cmd.forwardMove != 0 || cmd.rightMove != 0) && OnSlope())        
             controller.Move(Vector3.down * controller.height / 2 * slopeForce * Time.deltaTime);
-        }
+        
 
 
         // Calculate top velocity
