@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -147,6 +147,7 @@ MonoBehaviour:
   - {fileID: 225090298}
   placeToSpawn: {fileID: 1759861450}
   amountOfSpawnPoints: 5
+  alreadyDead: 0
 --- !u!95 &94098604
 Animator:
   serializedVersion: 3
@@ -166,6 +167,12 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!4 &94098610 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7164154890183337154, guid: c04fb1e9be8736942a49c2dfaa5bd879,
+    type: 3}
+  m_PrefabInstance: {fileID: 1659119001}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &225090298
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,6 +505,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775eaaac89102414f9c32bb49d88c8d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lookAtTarget: {fileID: 94098610}
+  target: {fileID: 94098610}
   cameraMinDistance: 4
   cameraMaxDistance: 15
   sensivityX: 1
@@ -1229,7 +1238,8 @@ PrefabInstance:
       propertyPath: turnAmmountBeforeLeaning
       value: 0.2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 217322692, guid: c04fb1e9be8736942a49c2dfaa5bd879, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c04fb1e9be8736942a49c2dfaa5bd879, type: 3}
 --- !u!1001 &1691270419
 PrefabInstance:

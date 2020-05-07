@@ -7,7 +7,8 @@ public class OfficialPlayerMovement : MonoBehaviour
     [Header("Player view stuff")]
     [SerializeField] private Transform playerView; // Must be a camera
 
-
+    [Header("CanMove")]
+    private Menus menuScript;
 
 
 
@@ -38,7 +39,7 @@ public class OfficialPlayerMovement : MonoBehaviour
     private bool isJumping; // Only used for the slope checking due to me not using anything to see if I'm jumping
 
 
-
+    public bool CanMove = true;
 
 
     [Header("")]
@@ -87,7 +88,7 @@ public class OfficialPlayerMovement : MonoBehaviour
 
     private void Start()
     {
-
+        menuScript = GameObject.FindGameObjectWithTag("UI").GetComponent<Menus>();
         playerView = Camera.main.transform;
 
 
@@ -101,7 +102,6 @@ public class OfficialPlayerMovement : MonoBehaviour
     private void Update()
     {
         // Movement, Note: Important
-
         QueueJump();
         if (controller.isGrounded)
             GroundMove();
@@ -109,13 +109,18 @@ public class OfficialPlayerMovement : MonoBehaviour
             AirMove();
 
 
-        // Move the controller
-        controller.Move(playerVelocity * Time.deltaTime);
 
-        if ((cmd.forwardMove != 0 || cmd.rightMove != 0) && OnSlope())
-        {
+        // Move the controller
+        if (menuScript.canMove)        
+            controller.Move(playerVelocity * Time.deltaTime);        
+
+
+
+
+
+        if ((cmd.forwardMove != 0 || cmd.rightMove != 0) && OnSlope())        
             controller.Move(Vector3.down * controller.height / 2 * slopeForce * Time.deltaTime);
-        }
+        
 
 
         // Calculate top velocity
@@ -158,8 +163,12 @@ public class OfficialPlayerMovement : MonoBehaviour
     // Sets the movement direction based on player input
     void SetMovementDir()
     {
-        cmd.forwardMove = Input.GetAxis("Vertical");
-        cmd.rightMove = Input.GetAxis("Horizontal");
+        if (CanMove)
+        {
+            cmd.forwardMove = Input.GetAxis("Vertical");
+            cmd.rightMove = Input.GetAxis("Horizontal");
+
+        }
     }
 
 

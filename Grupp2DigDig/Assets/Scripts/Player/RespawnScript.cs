@@ -9,12 +9,10 @@ public class RespawnScript : MonoBehaviour
     public GameObject placeToSpawn;
     public int amountOfSpawnPoints;
 
-    private Animator playerAnimator;
-    private bool alreadyDead = false;
+    public bool alreadyDead = false;
 
     private void Start()
     {
-        playerAnimator = GetComponent<Animator>();
         placeToSpawn.transform.position = RespawnLocations[PlayerPrefs.GetInt("SpawnLocation")].transform.position;
     }
 
@@ -49,7 +47,7 @@ public class RespawnScript : MonoBehaviour
     {
         print("ded");
         alreadyDead = true;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         playerTransform.transform.position = placeToSpawn.transform.position;
         alreadyDead = false;
     }
