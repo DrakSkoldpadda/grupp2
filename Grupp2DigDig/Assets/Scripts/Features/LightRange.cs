@@ -6,13 +6,8 @@ public class LightRange : MonoBehaviour
 {
     private Transform player;
     private InTheDarkMeater outside;
-<<<<<<< HEAD
     public float lightRange = 10f;
-=======
-    public float lightRange = 4f;
     private bool isInLight;
-
->>>>>>> efe8b65f4e7e58b3ae4fa5d48388270b2c19d72a
 
     //[SerializeField] private GameObject lightRangeObject;
 
