@@ -5,6 +5,9 @@ using UnityEngine;
 public class PlayerAnimationScript : MonoBehaviour
 {
 
+    [Header("CanMove")]
+    private Menus menuScript;
+
     private Animator playerAnim;
     private OfficialPlayerMovement playerMov;
 
@@ -17,6 +20,8 @@ public class PlayerAnimationScript : MonoBehaviour
 
     private void Start()
     {
+        menuScript = GameObject.FindGameObjectWithTag("UI").GetComponent<Menus>();
+
         currentPlayerState = PlayerState.Idle;
         playerAnim = GetComponentInChildren<Animator>();
         playerMov = GetComponentInParent<OfficialPlayerMovement>();
@@ -42,18 +47,19 @@ public class PlayerAnimationScript : MonoBehaviour
 
             //print("Idle");
         }
+
         // Else if either horizontal or Vertical is not 0 while grounded. Go Running
-        else if ((Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f) && playerMov.controller.isGrounded)
+        else if (((Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f) && playerMov.controller.isGrounded) && menuScript.canMove)
         {
             currentPlayerState = PlayerState.Running;
         }
         // Else if you are not grounded and is flying upwards. Jump Up
-        else if (!playerMov.controller.isGrounded && playerMov.playerVelocity.y > 0)
+        else if ((!playerMov.controller.isGrounded && playerMov.playerVelocity.y > 0) && menuScript.canMove)
         {
             currentPlayerState = PlayerState.Jumping;
         }
         // Else if you are also not grounded and is falling down. The FAAAAAAaAaaa.a....l (Also don't fall while standing still)
-        else if (!playerMov.controller.isGrounded && playerMov.playerVelocity.y < -1)
+        else if ((!playerMov.controller.isGrounded && playerMov.playerVelocity.y < -1) && menuScript.canMove)
         {
             currentPlayerState = PlayerState.Falling;
             //print("Falling");
