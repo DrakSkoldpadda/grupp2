@@ -9,7 +9,6 @@ public class LightRange : MonoBehaviour
     public float lightRange = 10f;
     private bool isInLight;
 
-
     //[SerializeField] private GameObject lightRangeObject;
 
     // Start is called before the first frame update
