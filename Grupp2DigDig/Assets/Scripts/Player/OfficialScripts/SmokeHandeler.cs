@@ -7,12 +7,14 @@ public class SmokeHandeler : MonoBehaviour
     public ParticleSystem rightLegSmoke;
     public ParticleSystem leftLegSmoke;
 
-
+    public AudioSource stepljud;
 
     public void RightSmoke()
     {
         rightLegSmoke.Play();
         //Debug.Log("Right SMOOK");
+
+
     }
 
     public void LeftSmoke()
