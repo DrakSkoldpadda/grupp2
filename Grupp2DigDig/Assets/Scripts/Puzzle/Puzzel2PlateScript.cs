@@ -12,19 +12,26 @@ public class Puzzel2PlateScript : MonoBehaviour
     public AudioSource openLjud;
     public AudioSource dundundundun;
 
+    bool pressed;
 
+    private void Start()
+    {
+        pressed = false;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            StartCoroutine(PlattaNer());
+            if (pressed == false)
+                StartCoroutine(PlattaNer());
         }
     }
 
 
     IEnumerator PlattaNer()
     {
+        pressed = true;
         yield return new WaitForSeconds(0.4f);
 
         stenLjud.Play();
