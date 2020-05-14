@@ -11,7 +11,10 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Hmmm 1.unity
     guid: 962b9ec59f0639146bd2da7e734c88d0
+  - enabled: 1
+    path: Assets/Scenes/1Robin.unity
+    guid: 3f82e7deb30a0d94284c5906eb524209
   m_configObjects: {}
