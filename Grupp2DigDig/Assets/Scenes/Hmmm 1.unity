@@ -4146,7 +4146,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7ca407c5165e0a441b6112f95a496baf, type: 2}
+  - {fileID: 2100000, guid: b1386457bcb7b974891ba8357efb1957, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -77773,6 +77773,11 @@ PrefabInstance:
       propertyPath: waterStenarnaLjud
       value: 
       objectReference: {fileID: 741687942}
+    - target: {fileID: 7191786867653855747, guid: 53466daaacfcace4fab203d81728eff3,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1386457bcb7b974891ba8357efb1957, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53466daaacfcace4fab203d81728eff3, type: 3}
 --- !u!1 &8009372983836316376
