@@ -167,7 +167,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 2
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 512
@@ -197,17 +197,17 @@ PrefabInstance:
     - target: {fileID: 1993861264845593390, guid: ef4ef25107afaa84ba6165da670dacf5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 628.22
+      value: 730.4
       objectReference: {fileID: 0}
     - target: {fileID: 1993861264845593390, guid: ef4ef25107afaa84ba6165da670dacf5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.25
+      value: 26.1
       objectReference: {fileID: 0}
     - target: {fileID: 1993861264845593390, guid: ef4ef25107afaa84ba6165da670dacf5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 114.93
+      value: -339.7
       objectReference: {fileID: 0}
     - target: {fileID: 1993861264845593390, guid: ef4ef25107afaa84ba6165da670dacf5,
         type: 3}
@@ -249,15 +249,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1993861264845593390, guid: ef4ef25107afaa84ba6165da670dacf5,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1993861264845593390, guid: ef4ef25107afaa84ba6165da670dacf5,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1993861264845593390, guid: ef4ef25107afaa84ba6165da670dacf5,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1993861264845593378, guid: ef4ef25107afaa84ba6165da670dacf5,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1993861264845593378, guid: ef4ef25107afaa84ba6165da670dacf5,
         type: 3}
       propertyPath: slopeForce
       value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1993861264845593378, guid: ef4ef25107afaa84ba6165da670dacf5,
-        type: 3}
-      propertyPath: slopeForceRayLeangth
-      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4991971298938792053, guid: ef4ef25107afaa84ba6165da670dacf5,
         type: 3}
