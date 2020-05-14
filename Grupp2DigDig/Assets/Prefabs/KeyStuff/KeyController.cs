@@ -15,8 +15,7 @@ public class KeyController : MonoBehaviour
     {
         if(keyCollected == 1 && !messageSent)
         {
-            //keyCollectText.text = "The key seems to be broken? I need to find the other piece";
-            keyCollectText.text = "HMMM. Key seem brok. Me Must fix key. Fix key get me to grandma!";
+            keyCollectText.text = "The key seems to be broken? I need to find the other piece";
 
             anim.SetTrigger("PopuppTrigger");
 
@@ -36,8 +35,7 @@ public class KeyController : MonoBehaviour
     {
         anim.SetTrigger("ReturnTrigger");
         yield return new WaitForSeconds(1);
-        //keyCollectText.text = "The piece fit perfecly with the other one! I should be able to open that gate now";
-        keyCollectText.text = "HMMMMMmmmm. Yes. Key is fix! Now me go to old woman!";
+        keyCollectText.text = "The piece fit perfecly with the other one! I should be able to open that gate now";
 
         anim.SetTrigger("PopuppTrigger");
 
