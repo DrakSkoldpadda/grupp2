@@ -15,18 +15,16 @@ public class KeyController : MonoBehaviour
     {
         if(keyCollected == 1 && !messageSent)
         {
-            keyCollectText.text = "The key seems to be broken? I need to find the other piece";
+            //keyCollectText.text = "The key seems to be broken? I need to find the other piece";
+            keyCollectText.text = "HMMM. Key seem brok. Me Must fix key. Fix key get me to grandma!";
+
             anim.SetTrigger("PopuppTrigger");
-            StartCoroutine(popupReturn());
 
             messageSent = true;
         }
         if (keyCollected == 2 && messageSent)
         {
-            anim.ResetTrigger("ReturnTrigger");
 
-            keyCollectText.text = "The piece fit perfecly with the other one! I should be able to open that gate now";
-            anim.SetTrigger("PopuppTrigger");
             StartCoroutine(popupReturn());
 
             //Tell player that they have 1 key
@@ -36,9 +34,13 @@ public class KeyController : MonoBehaviour
 
     IEnumerator popupReturn()
     {
-        yield return new WaitForSeconds(3);
-        anim.ResetTrigger("PopuppTrigger");
         anim.SetTrigger("ReturnTrigger");
+        yield return new WaitForSeconds(1);
+        //keyCollectText.text = "The piece fit perfecly with the other one! I should be able to open that gate now";
+        keyCollectText.text = "HMMMMMmmmm. Yes. Key is fix! Now me go to old woman!";
+
+        anim.SetTrigger("PopuppTrigger");
+
 
     }
 
