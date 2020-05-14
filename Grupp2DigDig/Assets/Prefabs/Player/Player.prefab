@@ -9732,7 +9732,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightRange: 4
-  lightRangeObject: {fileID: 0}
 --- !u!1 &212092463903373139
 GameObject:
   m_ObjectHideFlags: 0
@@ -9896,6 +9895,7 @@ MonoBehaviour:
   - {fileID: 0}
   placeToSpawn: {fileID: 0}
   amountOfSpawnPoints: 1
+  alreadyDead: 0
 --- !u!143 &1993861264845593376
 CharacterController:
   m_ObjectHideFlags: 0
@@ -9939,6 +9939,7 @@ MonoBehaviour:
   holdJumpToBhop: 0
   slopeForce: 5
   slopeForceRayLeangth: 1.5
+  CanMove: 1
   controller: {fileID: 0}
   playerVelocity: {x: 0, y: 0, z: 0}
 --- !u!114 &4991971298938792053
@@ -9957,6 +9958,7 @@ MonoBehaviour:
   lampPrefab: {fileID: 106766998722178840, guid: acf731482ebc02741bd3a194336304a6,
     type: 3}
   dropLocation: {fileID: 3012113620033310180}
+  holdingLocation: {fileID: 0}
   pickUpDistance: 2
 --- !u!1 &4865152765726656861
 GameObject:
@@ -10015,6 +10017,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightLegSmoke: {fileID: 812171733}
   leftLegSmoke: {fileID: 1438927796}
+  stepljud: {fileID: 0}
 --- !u!114 &1993861264557656080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10036,11 +10039,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1993861264845593390}
     m_Modifications:
-    - target: {fileID: 8590141551346791855, guid: 10164855fdd1ced4abe55d772dc2acbc,
-        type: 3}
-      propertyPath: m_Name
-      value: rodluvanPrefab
-      objectReference: {fileID: 0}
     - target: {fileID: 4714435253707458492, guid: 10164855fdd1ced4abe55d772dc2acbc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10110,6 +10108,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -89.97072
+      objectReference: {fileID: 0}
+    - target: {fileID: 8590141551346791855, guid: 10164855fdd1ced4abe55d772dc2acbc,
+        type: 3}
+      propertyPath: m_Name
+      value: rodluvanPrefab
       objectReference: {fileID: 0}
     - target: {fileID: 4335770944379387376, guid: 10164855fdd1ced4abe55d772dc2acbc,
         type: 3}
