@@ -277,8 +277,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightRange: 4
-  lightRanges: 0
-  lightRangeObject: {fileID: 0}
 --- !u!114 &837936800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,7 +293,7 @@ MonoBehaviour:
   activtedRange: 4
   activatedObject: {fileID: 0}
   crystalRenderer: {fileID: 0}
-  crystaltColor: {r: 0, g: 1, b: 0.1275661, a: 0}
+  crystaltColor: {r: 1, g: 0.17098692, b: 0, a: 0}
   spotLight: {fileID: 577731134}
   pointLight: {fileID: 103887580}
   spotOriginalIntesety: 70
